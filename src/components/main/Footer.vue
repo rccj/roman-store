@@ -10,15 +10,17 @@
       <div class="bottoms_box">
         <ul class="content">
           <li>
-            <div>Customer Care</div>
+            <div class="content_title">Customer Care</div>
+            <div></div>
+            <div></div>
             <div></div>
           </li>
           <li>
-            <div>About</div>
+            <div class="content_title">About</div>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda quibusdam eveniet saepe deserunt odit, recusandae unde minus doloremque numquam dolorum</p>
           </li>
           <li>
-            <div>Products</div>
+            <div class="content_title">Products</div>
           </li>
         </ul>
         <ul class="icon">
@@ -55,16 +57,17 @@ export default {};
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin: 0 30px;
     }
   }
   .bottoms {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 0 30px;
 
     &_box {
       width: 100%;
       max-width: 1400px;
+      margin: 30px 0;
       &>p{
         text-align: center;
       }
@@ -72,6 +75,10 @@ export default {};
         display: flex;
         & > * {
           flex: 1;
+        }
+        &_title{
+          font-size: 1.3em;
+          font-weight: 500;
         }
       }
 

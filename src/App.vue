@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class=body>
+    <div class="body">
       <Nav class="nav"></Nav>
       <div class="block"></div>
       <router-view />
@@ -25,6 +25,11 @@ export default {
 
 <style>
 * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  
   max-width: 1680px;
   font-family: Montserrat, Helvetica Neue, Arial, sans-serif;
   font-size: 14px;
@@ -41,7 +46,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.body{
+.body {
   display: flex;
   flex-direction: column;
   /* width: 100%; */

@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <ul class="product">
-        <li class="product_data"  v-for="item in products">
+        <li class="product_data" v-for="item in products">
           <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
@@ -29,29 +29,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container{
+.container {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-.product{
+.product {
   max-width: 1500px;
   width: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 
-  &_data{
+  &_data {
     margin: 0 10px 40px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    .cover {
+      background: center center;
+      background-size: cover;
+      width: 280px;
+      height: 350px;
+    }
   }
-}
-.cover {
-  background: center center;
-  background-size: cover;
-    width: 280px;
-    height: 350px;
 }
 </style>

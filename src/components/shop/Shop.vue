@@ -1,5 +1,6 @@
 <template>
-  <div>
+<!-- 冒泡事件處理 -->
+  <div @click.capture="showSort = false"> 
     <div class="shop_page">
       <div class="page_box">
         <div class="page_box_text">
@@ -20,12 +21,27 @@
       <router-link to="/shop/2">2</router-link>
       <router-link to="/shop/3">3</router-link>
       <div>{{id}}</div>
-    </div> -->
-    <Products></Products>
+    </div>-->
+    <div class="type_bar">
+      <div class="_filter">
+        <div class="_btn">Filter</div>
+      </div>
+      <!-- 冒泡事件處理 -->
+      <div class="_sort" @click.capture="showSort =!showSort">
+        <div class="_btn">Sort by</div>
+        <ul class="_list" v-if="showSort">
+          <li @click="setProductsHighToLow">Price (low to high)</li>
+          <li @click="setProductsLowToHigh">Price (high to low)</li>
+          <li @click="fetchProducts">clear all</li>
+        </ul>
+      </div>
+    </div>
+    <Products class="products"></Products>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations,mapActions } from "vuex";
 const products = {
   1: "T-Shirt",
   2: "Shoes",
@@ -34,14 +50,25 @@ const products = {
 import Products from "./Products";
 
 export default {
+
+  data(){
+    return{
+      showSort:false,
+    }
+  },
   components: {
-    Products,
+    Products
   },
   computed: {
-    id() {
-      return products[this.$route.params.id];
-    }
-  }
+    // id() {
+    //   return products[this.$route.params.id];
+    // }
+  },
+    methods: {
+    ...mapMutations(["setProductsHighToLow","setProductsLowToHigh"]),
+    ...mapActions(["fetchProducts"])
+  },
+  
 };
 </script>
 
@@ -112,4 +139,60 @@ export default {
     }
   }
 }
+
+.type_bar {
+  width: 100%;
+  height: 35px;
+  background-color: #c2dfea;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+
+  ._filter {
+    width: 30%; 
+  }
+  ._sort {
+    width: 30%;
+
+  }
+  ._btn {
+    text-align: center;
+
+    &:hover {
+      color: white;
+    }
+  }
+  ._list {
+    // display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    padding: 5px 0;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    
+    & > li {
+      padding: 5px;
+      box-sizing: border-box;
+      width: 100%;
+      text-align: center;
+      &:hover {
+        background-color: #f8f9fa;
+      }
+      &:active {
+        background-color: #007bff;
+      }
+    }
+  }
+}
+
+.products {
+  margin: 50px 0;
+}
 </style>
+
+

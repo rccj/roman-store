@@ -12,6 +12,16 @@ const store = new Vuex.Store({
   mutations: {
     setProducts(state, products) {
       state.products = products;
+    },
+    setProductsHighToLow(state) {
+      state.products = state.products.sort(function (a, b) {
+        return a.price - b.price
+      })
+    },
+    setProductsLowToHigh(state) {
+      state.products = state.products.sort(function (a, b) {
+        return b.price - a.price
+      })
     }
   },
   actions: {
