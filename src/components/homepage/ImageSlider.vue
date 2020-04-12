@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       itemList: [],
-      itemPage: []
+      itemPage: [],
     };
   },
   computed: {
