@@ -6,7 +6,6 @@
         <p>Do more...</p>
       </div>
     </div>
-
     <Flower class="flower"></Flower>
     <ImageSlider></ImageSlider>
   </div>

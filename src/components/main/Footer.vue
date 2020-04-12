@@ -62,6 +62,7 @@ export default {};
   }
   .bottoms {
     display: flex;
+    justify-content: center;
     padding: 0 30px;
 
     &_box {
@@ -73,6 +74,13 @@ export default {};
       }
       .content {
         display: flex;
+        &_title{
+          border-bottom: 1px solid black;
+          margin-right: 30px;
+          &:last-child{
+            margin-right: 0;
+          }
+        }
         & > * {
           flex: 1;
         }

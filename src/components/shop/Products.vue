@@ -46,11 +46,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 280px;
+    width: 100%;
+
     
     .cover {
       background: center center;
       background-size: cover;
-      width: 280px;
+      width: 100%;
       height: 350px;
     }
   }
