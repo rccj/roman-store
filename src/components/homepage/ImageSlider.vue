@@ -50,7 +50,7 @@ import "vueperslides/dist/vueperslides.css";
 
 export default {
   //套件組件
-  components: { VueperSlides, VueperSlide },
+  // components: { VueperSlides, VueperSlide },
   data() {
     return {
       itemList: [],
@@ -140,7 +140,7 @@ export default {
     justify-content: center;
 
     .dot{
-      margin: 5px;
+      margin: 10px;
     }
   }
 }
