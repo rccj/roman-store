@@ -45,8 +45,8 @@
 import { mapState, mapActions } from "vuex";
 
 // vue carousel套件
-import { VueperSlides, VueperSlide } from "vueperslides";
-import "vueperslides/dist/vueperslides.css";
+// import { VueperSlides, VueperSlide } from "vueperslides";
+// import "vueperslides/dist/vueperslides.css";
 
 export default {
   //套件組件
