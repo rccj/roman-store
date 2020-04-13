@@ -1,6 +1,6 @@
 <template>
-<!-- 冒泡事件處理 -->
-  <div @click.capture="showSort = false"> 
+  <!-- 冒泡事件處理 -->
+  <div @click.capture="showSort = false">
     <div class="shop_page">
       <div class="page_box">
         <div class="page_box_text">
@@ -41,34 +41,33 @@
 </template>
 
 <script>
-import { mapState, mapMutations,mapActions } from "vuex";
-const products = {
-  1: "T-Shirt",
-  2: "Shoes",
-  3: "Pants"
-};
+import {mapState,  mapMutations, mapActions } from "vuex";
+// const products = {
+//   1: "T-Shirt",
+//   2: "Shoes",
+//   3: "Pants"
+// };
 import Products from "./Products";
 
-export default {
 
-  data(){
-    return{
-      showSort:false,
-    }
+export default {
+  data() {
+    return {
+      showSort: false
+    };
   },
   components: {
-    Products
+    Products,
   },
   computed: {
     // id() {
     //   return products[this.$route.params.id];
     // }
   },
-    methods: {
-    ...mapMutations(["setProductsHighToLow","setProductsLowToHigh"]),
+  methods: {
+    ...mapMutations(["setProductsHighToLow", "setProductsLowToHigh"]),
     ...mapActions(["fetchProducts"])
-  },
-  
+  }
 };
 </script>
 
@@ -150,11 +149,10 @@ export default {
   cursor: pointer;
 
   ._filter {
-    width: 30%; 
+    width: 30%;
   }
   ._sort {
     width: 30%;
-
   }
   ._btn {
     text-align: center;
@@ -174,7 +172,7 @@ export default {
     width: 30%;
     display: flex;
     flex-direction: column;
-    
+
     & > li {
       padding: 5px;
       box-sizing: border-box;

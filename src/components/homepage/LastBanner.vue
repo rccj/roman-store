@@ -1,0 +1,61 @@
+<template>
+  <div class="container">
+    <div class="title">@Lorem, ipsum.</div>
+    <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, fuga!</div>
+    <div class="photos">
+      <div class="photo photo_a"></div>
+      <div class="photo photo_b"></div>
+      <div class="photo photo_c"></div>
+      <div class="photo photo_d"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style lang="scss" scoped>
+.container {
+  margin: 50px 0;
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &>*{
+      margin-bottom: 20px ;
+  }
+  .title{
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+  .photos {
+    height: 400px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .photo {
+      height: 100%;
+      width: 23%;
+      background: {
+        size: cover;
+        position: center 50%;
+      }
+    }
+    .photo_a {
+      background-image: url(../../assets/img/last-1.jpg);
+    }
+    .photo_b {
+      background-image: url(../../assets/img/last-2.jpg);
+    }
+    .photo_c {
+      background-image: url(../../assets/img/last-3.jpg);
+    }
+    .photo_d {
+      background-image: url(../../assets/img/last-4.jpg);
+    }
+  }
+}
+</style>

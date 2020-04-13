@@ -30,7 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 100%;
   display: flex;
   justify-content: center;
 }
@@ -38,18 +37,17 @@ export default {
   max-width: 1500px;
   width: 100%;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
 
   &_data {
     margin: 0 10px 40px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 280px;
-    width: 100%;
+    width: 20%;
+  
 
-    
     .cover {
       background: center center;
       background-size: cover;

@@ -14,7 +14,7 @@
           <div class="product_list_item_image" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div class="product_list_item_brand">{{item.brand}}</div>
           <div class="product_list_item_title">{{item.title}}</div>
-          <div class="product_list_item_price">{{item.price}}</div>
+          <div class="product_list_item_price">$ {{item.price}}</div>
         </li>
       </ul>
     </div>
@@ -23,34 +23,13 @@
         <input type="radio" id="d1" :value="item" v-model="itemList" />
       </li>
     </ul>
-    <!-- <vueper-slides
-      class="no-shadow slider"
-      :visible-slides="4"
-      slide-multiple
-      :gap="3"
-      :slide-ratio="1 / 4"
-      :dragging-distance="200"
-      :breakpoints="{  700: { visibleSlides: 1, slideMultiple: 1 },
-                       800: { visibleSlides: 2, slideMultiple: 2 },
-                      1200: { visibleSlides: 3, slideMultiple: 3 }, }"
-    >
-      <vueper-slide 
-        v-for="i in products" 
-        :key="i" 
-        :image= i.imageURL />
-    </vueper-slides>-->
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 
-// vue carousel套件
-// import { VueperSlides, VueperSlide } from "vueperslides";
-// import "vueperslides/dist/vueperslides.css";
 
 export default {
-  //套件組件
-  // components: { VueperSlides, VueperSlide },
   data() {
     return {
       itemList: [],
@@ -75,13 +54,13 @@ export default {
       console.log(result);
       this.itemPage = result;
       this.itemList = result[0];
-      // console.log(this.itemPage);
-      // console.log(this.itemList);
+      console.log(this.itemPage);
+      console.log(this.itemList);
     }
   },
 
   mounted() {
-    this.fetchProducts();
+    
     this.initList();
   }
 };
@@ -89,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .body_container {
   width: 100%;
-  height: 700px;
+  height: 600px;
 
   .box {
     display: flex;

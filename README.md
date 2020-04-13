@@ -1,5 +1,6 @@
 # do-more
 
+我要做出一個電商...
 > A Vue.js project
 
 ## Build Setup

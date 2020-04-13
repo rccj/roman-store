@@ -8,17 +8,28 @@
     </div>
     <Flower class="flower"></Flower>
     <ImageSlider></ImageSlider>
+    <TwoPeople></TwoPeople>
+    <ImageSlider></ImageSlider>
+    <Background></Background>
+    <LastBanner></LastBanner>
   </div>
 </template>
 
 <script>
 import Flower from "../homepage/flower";
 import ImageSlider from "../homepage/imageSlider";
+import TwoPeople from "../homepage/TwoPeople";
+import Background from "../homepage/Background";
+import LastBanner from "../homepage/LastBanner";
+
 export default {
   name: "Home",
   components: {
     Flower,
     ImageSlider,
+    TwoPeople,
+    Background,
+    LastBanner,
   }
   // data() {
   //   return {
@@ -46,13 +57,12 @@ export default {
     }
     .logo_text {
       position: relative;
-      top:50%;
-      left:10%;
+      top: 50%;
+      left: 10%;
       & > p {
         color: white;
         font-size: 3em;
         font-weight: bold;
-        
       }
     }
   }
