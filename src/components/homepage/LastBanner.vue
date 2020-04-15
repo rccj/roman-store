@@ -18,11 +18,11 @@ export default {};
 <style lang="scss" scoped>
 .container {
   margin: 50px 0;
-  max-width: 1400px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  
   &>*{
       margin-bottom: 20px ;
   }
@@ -31,10 +31,12 @@ export default {};
     font-weight: 500;
   }
   .photos {
+    max-width: 1400px;
     height: 400px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    
 
     .photo {
       height: 100%;

@@ -1,31 +1,74 @@
 <template>
-    <div class="wrap">
-      <div class="wrap_top">
-        <div class="wrap_top_box">
-          <router-link to="/">· LOGIN</router-link>
-          <router-link to="/">· REGISTER</router-link>
-        </div>
+  <div class="wrap">
+    <div class="wrap_top">
+      <div class="wrap_top_box">
+        <router-link to="/login">· LOGIN</router-link>
+        <router-link to="/register">· REGISTER</router-link>
       </div>
-      <div class="wrap_bottom">
-        <div class="wrap_bottom_box">
-          <div class="wrap_bottom_box_first">
-            <router-link to="/" class="logo">Roman.</router-link>
-            <div class="search"></div>
-          </div>
-          <div class="wrap_bottom_box_second">
-            <router-link to="/shop">SHOP</router-link>
-            <router-link to="/contact">CONTACT</router-link>
-            <router-link to="/contact">CART</router-link>
-          </div>
+    </div>
+    <div class="wrap_bottom">
+      <div class="wrap_bottom_box">
+        <div class="wrap_bottom_box_first">
+          <router-link to="/" class="logo">Roman.</router-link>
+          <input
+            type="search"
+            v-model="inputValue"
+            style="outline:none;"
+            @keyup.enter="search(inputValue)"
+          />
+          <button @click="resetProducts()">reset</button>
+          <div class="search"></div>
+        </div>
+        <div class="wrap_bottom_box_second">
+          <router-link to="/shop">SHOP</router-link>
+          <router-link to="/contact">CONTACT</router-link>
+          <router-link to="/contact">
+            CART
+            <label>({{cart.length}})</label>
+          </router-link>
+          <button @click="axiosClearCart()">清除購物車</button>
         </div>
       </div>
     </div>
+    <div v-if="resultFor !==''">Search results for:{{resultFor}}</div>
+  </div>
 </template>
 <script>
-export default {};
+import { mapState, mapMutations, mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      apiCart: [],
+      inputValue: "",
+      resultFor: ""
+    };
+  },
+  computed: {
+    ...mapState(["cart"])
+  },
+  methods: {
+    ...mapActions([
+      "axiosCart",
+      "axiosClearCart",
+      "axiosProducts",
+      "axiosSearchProducts"
+    ]),
+    search(text) {
+      this.axiosSearchProducts(text);
+      this.inputValue = "";
+      this.resultFor = text;
+    },
+    resetProducts() {
+      this.axiosProducts();
+      this.resultFor = "";
+    }
+  },
+  created() {
+    this.axiosCart();
+  }
+};
 </script>
 <style scoped lang="scss">
-
 .logo {
   font-size: 5em;
   font-weight: bold;
@@ -37,7 +80,7 @@ export default {};
     width: 100%;
     display: flex;
     justify-content: center;
-    
+
     &_box {
       margin: 0 20px;
       display: flex;
@@ -45,11 +88,11 @@ export default {};
       align-items: center;
       max-width: 1400px;
       width: 100%;
-      
-      &>*{
-        font-size:0.7em;
+
+      & > * {
+        font-size: 0.7em;
         font-weight: bold;
-        color:#444;
+        color: #444;
       }
     }
   }
@@ -69,7 +112,7 @@ export default {};
       max-width: 1400px;
       width: 100%;
 
-      &_second>*{
+      &_second > * {
         margin-left: 20px;
       }
     }

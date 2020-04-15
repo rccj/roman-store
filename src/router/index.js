@@ -7,6 +7,8 @@ import privacy from '@/components/contact/privacy'
 import location from '@/components/contact/location'
 import terms from '@/components/contact/terms'
 import shop from '@/components/shop/shop'
+import Login from '@/components/member/login'
+import Register from '@/components/member/register'
 
 
 
@@ -18,7 +20,7 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
-    },    
+    },
     {
       path: '/contact',
       name: 'contact',
@@ -42,7 +44,23 @@ export default new Router({
     {
       path: '/shop/:id?',
       name: 'shop',
-      component: shop
-    }
+      component: shop,
+      // children: [
+      //   {
+      //     path: 'search/:id?',
+      //     component: shop,
+      //   },
+      // ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
   ]
 })

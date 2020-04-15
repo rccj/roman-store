@@ -9,18 +9,21 @@
     <div class="bottoms">
       <div class="bottoms_box">
         <ul class="content">
-          <li>
+          <li class="mm">
             <div class="content_title">Customer Care</div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div>CONTACT US</div>
+            <div>FAQS</div>
+            <div>TERM OF USE</div>
           </li>
-          <li>
+          <li class="mm">
             <div class="content_title">About</div>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda quibusdam eveniet saepe deserunt odit, recusandae unde minus doloremque numquam dolorum</p>
           </li>
-          <li>
+          <li class="mm">
             <div class="content_title">Products</div>
+            <div>OUR STORE</div>
+            <div>SHIPPING</div>
+            <div>PRIVACY</div>
           </li>
         </ul>
         <ul class="icon">
@@ -39,6 +42,13 @@
 export default {};
 </script>
 <style lang="scss" scoped>
+.mm > * {
+  margin: 10px 0;
+}
+
+p{
+  margin: 20px 0;
+}
 .container {
   width: 100%;
   display: flex;
@@ -69,30 +79,32 @@ export default {};
       width: 100%;
       max-width: 1400px;
       margin: 30px 0;
-      &>p{
+      & > p {
         text-align: center;
       }
       .content {
         display: flex;
-        &_title{
+        justify-content: space-between;
+        &_title {
           border-bottom: 1px solid black;
           margin-right: 30px;
-          &:last-child{
+          &:last-child {
             margin-right: 0;
           }
         }
         & > * {
-          flex: 1;
+          width: 30%;
         }
-        &_title{
+        &_title {
           font-size: 1.3em;
           font-weight: 500;
         }
       }
 
-      .icon{
+      .icon {
         display: flex;
         justify-content: space-around;
+        margin: 20px 0;
       }
     }
   }

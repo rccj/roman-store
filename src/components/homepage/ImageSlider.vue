@@ -14,7 +14,7 @@
           <div class="product_list_item_image" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div class="product_list_item_brand">{{item.brand}}</div>
           <div class="product_list_item_title">{{item.title}}</div>
-          <div class="product_list_item_price">$ {{item.price}}</div>
+          <div class="product_list_item_price">${{item.price}}</div>
         </li>
       </ul>
     </div>
@@ -26,43 +26,42 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
-
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       itemList: [],
-      itemPage: [],
+      itemPage: []
     };
   },
   computed: {
     ...mapState(["products"])
   },
   methods: {
-    ...mapActions(["fetchProducts"]),
+    ...mapActions(["axiosProducts"]),
 
     initList() {
       const newArr = this.products;
-      console.log(newArr);
+      // console.log(newArr);
       newArr.sort(() => Math.random() - 0.5);
 
       const result = [];
       for (let i = 0; i < newArr.length; i += 4) {
         result.push(newArr.slice(i, i + 4)); //每四個一組
       }
-      console.log(result);
+      // console.log(result);
       this.itemPage = result;
       this.itemList = result[0];
-      console.log(this.itemPage);
-      console.log(this.itemList);
+      // console.log(this.itemPage);
+      // console.log(this.itemList);
     }
   },
-
-  mounted() {
-    
+  created() {
+    this.axiosProducts();
     this.initList();
-  }
+  },
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
@@ -118,7 +117,7 @@ export default {
     display: flex;
     justify-content: center;
 
-    .dot{
+    .dot {
       margin: 10px;
     }
   }

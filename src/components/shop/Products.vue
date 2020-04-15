@@ -2,11 +2,15 @@
   <div>
     <div class="container">
       <ul class="product">
-        <li class="product_data" v-for="item in products">
+        <li class="product_data" v-for="(item,index) in products">
           <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
           <div>{{`$ `+item.price}}</div>
+          <button @click="axiosAddCart(item)">
+            <label v-if="1">加到購物車</label>
+            <label v-else>已加到購物車</label>
+          </button>
         </li>
       </ul>
     </div>
@@ -14,16 +18,18 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState(["products"])
+    ...mapState(["products", "cart"])
   },
   methods: {
-    ...mapActions(["fetchProducts"])
+    ...mapActions(["axiosProducts", "axiosAddCart"]),
+    ...mapMutations(["addCart"]),
   },
+
   mounted() {
-    this.fetchProducts();
+    this.axiosProducts();
   }
 };
 </script>
@@ -46,7 +52,6 @@ export default {
     flex-direction: column;
     align-items: center;
     width: 20%;
-  
 
     .cover {
       background: center center;

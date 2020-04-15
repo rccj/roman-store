@@ -32,7 +32,7 @@
         <ul class="_list" v-if="showSort">
           <li @click="setProductsHighToLow">Price (low to high)</li>
           <li @click="setProductsLowToHigh">Price (high to low)</li>
-          <li @click="fetchProducts">clear all</li>
+          <li @click="axiosProducts">clear all</li>
         </ul>
       </div>
     </div>
@@ -60,14 +60,16 @@ export default {
     Products,
   },
   computed: {
+    ...mapState(["cart"])
     // id() {
     //   return products[this.$route.params.id];
     // }
   },
   methods: {
     ...mapMutations(["setProductsHighToLow", "setProductsLowToHigh"]),
-    ...mapActions(["fetchProducts"])
-  }
+    ...mapActions(["axiosProducts"])
+  },
+  
 };
 </script>
 
