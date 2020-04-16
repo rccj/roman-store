@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     cart: [],
     memberData:[],
     logIn:{
+      memberData;[]
       id:'',
       cart:[],
       authority:'',
