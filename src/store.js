@@ -12,6 +12,12 @@ const store = new Vuex.Store({
   state: {
     products: [],
     cart: [],
+    memberData:[],
+    logIn:{
+      id:'',
+      cart:[],
+      authority:'',
+    },
   },
   mutations: {
     setProducts(state, products) {
@@ -40,6 +46,9 @@ const store = new Vuex.Store({
     //清空
     clearCart(state) {
       state.cart = [];
+    },
+    setMemberData(state,data){
+      state.memberData = data
     }
 
   },
@@ -93,12 +102,11 @@ const store = new Vuex.Store({
           console.log('成功註冊此會員' + res)
         })
     },
-    //登入帳號
-    axiosSignIn(context,memberData) {
+    //獲取會員資料
+    axiosGetMemberData({commit}) {
       axios.get(MEMBER_URL)
       .then(res=>{
-          memberData = res ;
-          console.log(memberData)
+         commit("setMemberData", res.data) 
       })
     }
   },

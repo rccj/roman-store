@@ -3,32 +3,50 @@
     <div class="box">
       <h1>Login</h1>
       <div>username</div>
-      <input  type="text" placeholder="RomanChen" style="outline:none;" v-model="member.useName"/>
+      <input type="text" style="outline:none;" v-model="member.userName" />
       <div>password</div>
-      <input type="password" placeholder="six or more characters" style="outline:none;" v-model="member.passWord"/>
-      <br>
-      <input type="submit" value="sign in" @click="signIn()"/>
+      <input type="password" style="outline:none;" v-model="member.passWord" />
+      <br />
+      <input type="submit" value="sign in" @click="signIn()" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 export default {
-  data(){
-    return{
-      member:{
-        useName:'',
-        passWord:'',
-      },
-      memberData:[],
+  data() {
+    return {
+      member: {
+        userName: "",
+        passWord: ""
+      }
+    };
+  },
+  computed: {
+    ...mapState(["memberData"])
+  },
+  methods: {
+    ...mapActions(["axiosGetMemberData"]),
+
+    signIn() {
+      let memberCheck = this.memberData.filter(item => {
+        return (
+          item.userName == this.member.userName &&
+          item.passWord == this.member.passWord
+        );
+      });
+      if (memberCheck.length == 1) {
+        this.member.userName = "";
+        this.member.passWord = "";
+        console.log("登入成功");
+      } else {
+        alert("登入失敗");
+      }
     }
   },
-  methods:{
-    ...mapActions(["axiosSignIn"]),
-    signIn(){
-       this.axiosSignIn(this.memberData)
-    }
+  created() {
+    this.axiosGetMemberData();
   }
 };
 </script>
