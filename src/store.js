@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios'
 import db from "./components/db";
+import firebase from 'firebase'
+
 
 
 Vue.use(Vuex, axios);
@@ -12,7 +14,7 @@ const store = new Vuex.Store({
 
     memberList: [],
     productList: [] ,
-    publiCart:[],
+    cart:[],
     memberCart:[],
 
   },
@@ -28,11 +30,50 @@ const store = new Vuex.Store({
       state.productList = data
     },
 
-    //購物車
-    setCart(state,data){
-      state.setCart = data
-    }
 
+
+    //獲取普通購物車資料
+    // setCart(state){
+    //   state.cart= JSON.parse(localStorage.getItem('cartData'))||[]
+    // },
+        setCart(state) {
+      if(firebase.auth().currentUser){
+        
+        //讀取雲端會員的購物車
+      }else(
+        state.cart= JSON.parse(localStorage.getItem('cartData'))||[]
+      )
+      
+    },
+    //增加本地購物車
+    // addCart(state,data){
+    //   state.cart.push(data)
+    //   localStorage.setItem('cartData',JSON.stringify(state.cart));
+    // },
+    addCart(state,data){
+      if(firebase.auth().currentUser){
+        state.cart.push(data)
+        //推上雲端會員購物車
+      }else{
+        state.cart.push(data)
+        localStorage.setItem('cartData',JSON.stringify(state.cart));
+      }
+    },
+
+    //刪除購物車
+    // deleteItem(state,index){
+    //   state.cart.splice(index,1);
+    //   localStorage.setItem('cartData', JSON.stringify(state.cart));
+    // },
+    deleteItem(state,index){
+      if(firebase.auth().currentUser){
+        state.cart.splice(index,1);
+        //存回雲端
+      }else{
+        state.cart.splice(index,1);
+        localStorage.setItem('cartData', JSON.stringify(state.cart));
+      }
+    }
   },
 
   actions: {

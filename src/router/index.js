@@ -114,7 +114,7 @@ let router = new Router({
       },
     },
     {
-      path: '/cart/:cart_id',
+      path: '/cart',
       name: 'cart',
       component: Cart,
     },

@@ -7,7 +7,7 @@
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
           <div>{{`$ `+item.price}}</div>
-          <button>
+          <button @click="addCart(item)">
             <label v-if="1">加到購物車</label>
           </button>
         </li>
@@ -22,15 +22,15 @@ export default {
   name: "Products",
 
   computed: {
-    ...mapState(["productList"]),//fire
+    ...mapState(["productList"]),
   },
   methods: {
-    ...mapActions(["getFireProducts"]) //fire
+    ...mapActions(["getFireProducts"]),
+    ...mapMutations(['addCart'])
   },
 
   created() {
-    this.getFireProducts()//fire
-
+    this.getFireProducts()
   }
 };
 </script>

@@ -28,7 +28,7 @@
           <router-link to="/shop">SHOP</router-link>
           <router-link to="/contact">CONTACT</router-link>
           <router-link to="/cart">
-            CART
+            CART({{cart.length}})
           </router-link>
         </div>
       </div>
@@ -43,7 +43,6 @@ export default {
   name: "Nav",
   data() {
     return {
-
       isLoggedIn: false,
       currentUser: false
     };
@@ -57,8 +56,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-    ]),
+    ...mapMutations(['setCart']),
 
     logout() {
       firebase
@@ -74,8 +72,10 @@ export default {
       this.isLoggedIn = true;
       this.currentUser = firebase.auth().currentUser.email;
     }
-
-  }
+    this.setCart()
+  
+  },
+  
 };
 </script>
 <style scoped lang="scss">
