@@ -1,53 +1,57 @@
 <template>
   <div class="container">
-    <div class="box">
+    <form @submit="logInFire()" class="box">
       <h1>Login</h1>
-      <div>username</div>
-      <input type="text" style="outline:none;" v-model="member.userName" />
+      <div>email</div>
+      <input id="email" type="email" style="outline:none;" v-model="member.email" />
       <div>password</div>
-      <input type="password" style="outline:none;" v-model="member.passWord" />
+      <input id="password" type="password" style="outline:none;" v-model="member.passWord" />
       <br />
-      <input type="submit" value="sign in" @click="signIn()" />
-    </div>
+      <input type="submit" value="sign in" />
+    </form>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import firebase from "firebase"; //fire
+import db from "../db"; //fire
+
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
+  name: "Login",
+
   data() {
     return {
       member: {
-        userName: "",
+        email: "",
         passWord: ""
       }
     };
   },
   computed: {
-    ...mapState(["memberData"])
+
   },
   methods: {
-    ...mapActions(["axiosGetMemberData"]),
 
-    signIn() {
-      let memberCheck = this.memberData.filter(item => {
-        return (
-          item.userName == this.member.userName &&
-          item.passWord == this.member.passWord
+
+    //fire
+    logInFire() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.member.email, this.member.passWord)
+        .then(
+          user => {
+            alert(`You are logged in as ${user.user.email}`);
+            this.$router.go({ path: this.$router.path });
+
+          },
+          err => {
+            alert(err.message);
+          }
         );
-      });
-      if (memberCheck.length == 1) {
-        this.member.userName = "";
-        this.member.passWord = "";
-        console.log("登入成功");
-      } else {
-        alert("登入失敗");
-      }
-    }
+    },
   },
-  created() {
-    this.axiosGetMemberData();
-  }
+
 };
 </script>
   

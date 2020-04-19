@@ -29,6 +29,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
+  name:"ImageSlider",
   data() {
     return {
       itemList: [],
@@ -41,25 +42,25 @@ export default {
   methods: {
     ...mapActions(["axiosProducts"]),
 
-    initList() {
-      const newArr = this.products;
-      // console.log(newArr);
-      newArr.sort(() => Math.random() - 0.5);
+    // initList() {
+    //   const newArr = this.products;
+    //   // console.log(newArr);
+    //   newArr.sort(() => Math.random() - 0.5);
 
-      const result = [];
-      for (let i = 0; i < newArr.length; i += 4) {
-        result.push(newArr.slice(i, i + 4)); //每四個一組
-      }
-      // console.log(result);
-      this.itemPage = result;
-      this.itemList = result[0];
-      // console.log(this.itemPage);
-      // console.log(this.itemList);
-    }
+    //   const result = [];
+    //   for (let i = 0; i < newArr.length; i += 4) {
+    //     result.push(newArr.slice(i, i + 4)); //每四個一組
+    //   }
+    //   // console.log(result);
+    //   this.itemPage = result;
+    //   this.itemList = result[0];
+    //   // console.log(this.itemPage);
+    //   // console.log(this.itemList);
+    // }
   },
   created() {
-    this.axiosProducts();
-    this.initList();
+    // this.axiosProducts();
+    // this.initList();
   },
   mounted() {}
 };

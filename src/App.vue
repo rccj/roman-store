@@ -13,8 +13,16 @@
 import Nav from "@/components/main/nav";
 import Home from "@/components/main/Home";
 import Footer from "@/components/main/footer";
+
+
 export default {
   name: "App",
+  data() {
+    return {
+      documents: [],
+    }
+  },
+
   components: {
     Nav,
     Footer,

@@ -15,13 +15,6 @@
         </div>
       </div>
     </div>
-    <!-- <div>
-      <h1>SHOP</h1>
-      <router-link to="/shop/1">1</router-link>
-      <router-link to="/shop/2">2</router-link>
-      <router-link to="/shop/3">3</router-link>
-      <div>{{id}}</div>
-    </div>-->
     <div class="type_bar">
       <div class="_filter">
         <div class="_btn">Filter</div>
@@ -30,9 +23,9 @@
       <div class="_sort" @click.capture="showSort =!showSort">
         <div class="_btn">Sort by</div>
         <ul class="_list" v-if="showSort">
-          <li @click="setProductsHighToLow">Price (low to high)</li>
+          <!-- <li @click="setProductsHighToLow">Price (low to high)</li>
           <li @click="setProductsLowToHigh">Price (high to low)</li>
-          <li @click="axiosProducts">clear all</li>
+          <li @click="axiosProducts">clear all</li> -->
         </ul>
       </div>
     </div>
@@ -42,15 +35,13 @@
 
 <script>
 import {mapState,  mapMutations, mapActions } from "vuex";
-// const products = {
-//   1: "T-Shirt",
-//   2: "Shoes",
-//   3: "Pants"
-// };
+
 import Products from "./Products";
 
 
 export default {
+  name: "Shop",
+
   data() {
     return {
       showSort: false
@@ -60,14 +51,10 @@ export default {
     Products,
   },
   computed: {
-    ...mapState(["cart"])
-    // id() {
-    //   return products[this.$route.params.id];
-    // }
+
   },
   methods: {
-    ...mapMutations(["setProductsHighToLow", "setProductsLowToHigh"]),
-    ...mapActions(["axiosProducts"])
+
   },
   
 };

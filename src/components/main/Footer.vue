@@ -39,7 +39,10 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name:"Footer",
+
+};
 </script>
 <style lang="scss" scoped>
 .mm > * {

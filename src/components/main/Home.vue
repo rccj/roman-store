@@ -7,15 +7,16 @@
       </div>
     </div>
     <Flower class="flower"></Flower>
-    <ImageSlider></ImageSlider>
-    <TwoPeople></TwoPeople>
-    <ImageSlider></ImageSlider>
-    <Background></Background>
-    <LastBanner></LastBanner>
+    <ImageSlider/>
+    <TwoPeople/>
+    <ImageSlider/>
+    <Background/>
+    <LastBanner/>
   </div>
 </template>
 
 <script>
+import firebase from "firebase";
 import Flower from "../homepage/flower";
 import ImageSlider from "../homepage/imageSlider";
 import TwoPeople from "../homepage/TwoPeople";
@@ -30,13 +31,14 @@ export default {
     TwoPeople,
     Background,
     LastBanner,
-  }
-  // data() {
-  //   return {
-  //     msg: "Welcome to Your Vue.js App"
-  //   };
-  // }
+  },
+  created() {
+  console.log(firebase.auth().currentUser.email)
+    
+  },
+
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

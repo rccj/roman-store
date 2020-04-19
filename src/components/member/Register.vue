@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <div class="box">
+    <form @submit.prevent="register" class="box">
       <h1>Register</h1>
       <!-- 使用者 -->
       <div>username</div>
       <input
+        id="username"
         type="text"
         placeholder="RomanChen"
         style="outline:none;"
@@ -16,6 +17,7 @@
       <!-- 信箱 -->
       <div>e-mail</div>
       <input
+        id="email"
         type="email"
         placeholder="roman1234@gmail.com"
         style="outline:none;"
@@ -27,6 +29,7 @@
       <!-- 密碼 -->
       <div>password</div>
       <input
+        id="password"
         type="password"
         placeholder="six or more characters"
         style="outline:none;"
@@ -47,23 +50,27 @@
       <label v-if="!confirmVerify" style="color:red">{{confirmVerifyMsg}}</label>
 
       <br />
-      <input type="button" value="register" @click="register" />
-    </div>
+      <input type="submit" value="register" />
+    </form>
   </div>
 </template>
 
 <script>
+import firebase from "firebase";
+import db from "../db";
+
 import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
+      name: "Register",
+
       //輸入註冊會員
       member: {
         userName: "",
         email: "",
         passWord: "",
-        confirmPassword: "",
-        authority: "customer"
+        confirmPassword: ""
       },
       //驗證資料
       userVerify: false,
@@ -77,34 +84,40 @@ export default {
     };
   },
   computed: {
-    ...mapState(["memberData"])
+    ...mapState(["memberList"]) //fire
   },
   methods: {
-    ...mapActions(["axiosResgiter", "axiosGetMemberData"]),
+    ...mapActions(["getFireMember"]),
 
     //驗證使用者
     userCheck() {
-      let memberCheck = this.memberData.some(item => {
+      //fire
+      let memberCheck = this.memberList.some(item => {
         return item.userName == this.member.userName;
       });
+
       if (this.member.userName == "") {
         this.userVerifyMsg = "請輸入名稱";
         this.userVerify = false;
       } else if (memberCheck == true) {
-        this.userVerifyMsg = "此帳號已被使用";
+        this.userVerifyMsg = "此名稱已被使用";
         this.userVerify = false;
       } else if (!/^[a-zA-Z0-9]{1,26}$/.test(this.member.userName)) {
         this.userVerifyMsg = "只能有英文大小寫及數字，且長度為1-26字元";
         this.userVerify = false;
       } else this.userVerify = true;
     },
+
+    //原
     //驗證email
     emailCheck() {
-      let memberCheck = this.memberData.some(item => {
+      //fire
+      let memberCheck = this.memberList.some(item => {
         return item.email == this.member.email;
       });
+
       if (this.member.email == "") {
-        this.emailVerifyMsg = "請輸入名稱";
+        this.emailVerifyMsg = "請輸入信箱";
         this.emailVerify = false;
       } else if (memberCheck == true) {
         this.emailVerifyMsg = "此信箱已被使用";
@@ -118,6 +131,7 @@ export default {
         this.emailVerify = false;
       } else this.emailVerify = true;
     },
+    //原
     //驗證密碼
     passCheck() {
       if (this.member.passWord == "") {
@@ -128,7 +142,7 @@ export default {
         this.passVerify = false;
       } else this.passVerify = true;
     },
-
+    //原
     //驗證確認密碼
     confirmCheck() {
       if (this.member.confirmPassword == "") {
@@ -139,34 +153,61 @@ export default {
         this.confirmVerify = false;
       } else this.confirmVerify = true;
     },
-
+    //原
     //註冊
     register() {
       //不能空白
-      if (!this.userVerify) return alert("請填完整資料");
-      if (!this.emailVerify) return alert("請填完整資料");
-      if (!this.passVerify) return alert("請填完整資料");
-      if (!this.confirmVerify) return alert("請填完整資料");
-
-      //核對資料沒有重複
-
-      let member = this.member;
-
-      console.log("註冊中");
-
-      this.axiosResgiter(member).then(() => {
-        member.userName = "";
-        member.email = "";
-        member.passWord = "";
-        member.confirmPassword = "";
+      if (this.userVerify === false) return alert("請確認資料");
+      else if (this.emailVerify === false) return alert("請確認資料");
+      else if (this.passVerify === false) return alert("請確認資料");
+      else if (this.confirmVerify === false) return alert("請確認資料");
+      else {
+        console.log("註冊中");
+        this.registerData();
+        this.saveMember();
+        //原
+        this.member.userName = "";
+        this.member.email = "";
+        this.member.passWord = "";
+        this.member.confirmPassword = "";
         console.log("註冊成功");
-      });
+      }
+    },
+    //fire
+    registerData() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.member.email, this.member.passWord)
+        .then(
+          user => {
+            alert(`Account created for ${user.user.email}`);
 
-
+            this.$router.go({ path: this.$router.path });
+          },
+          err => {
+            alert(err.message);
+          }
+        );
+    },
+    //fire
+    saveMember() {
+      db
+        .collection("members")
+        .add({
+          id: this.memberList.length,
+          userName: this.member.userName,
+          email: this.member.email,
+          passWord: this.member.passWord,
+          auth: "customer",
+          cart: []
+        })
+        .then(docRef =>
+          this.$router.push("/").catch(error => console.log(err))
+        );
     }
   },
   created() {
-    this.axiosGetMemberData();
+    this.getFireMember(); //fire
   }
 };
 </script>

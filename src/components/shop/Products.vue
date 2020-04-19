@@ -2,14 +2,13 @@
   <div>
     <div class="container">
       <ul class="product">
-        <li class="product_data" v-for="(item,index) in products">
+        <li class="product_data" v-for="(item,index) in productList">
           <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
           <div>{{`$ `+item.price}}</div>
-          <button @click="axiosAddCart(item)">
+          <button>
             <label v-if="1">加到購物車</label>
-            <label v-else>已加到購物車</label>
           </button>
         </li>
       </ul>
@@ -20,16 +19,18 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
+  name: "Products",
+
   computed: {
-    ...mapState(["products", "cart"])
+    ...mapState(["productList"]),//fire
   },
   methods: {
-    ...mapActions(["axiosProducts", "axiosAddCart"]),
-    ...mapMutations(["addCart"]),
+    ...mapActions(["getFireProducts"]) //fire
   },
 
-  mounted() {
-    this.axiosProducts();
+  created() {
+    this.getFireProducts()//fire
+
   }
 };
 </script>

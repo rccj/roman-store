@@ -1,131 +1,97 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios'
+import db from "./components/db";
+
 
 Vue.use(Vuex, axios);
 
-const PRODUCT_URL = "https://sleepy-woodland-36566.herokuapp.com/products"
-const CART_URL = "https://sleepy-woodland-36566.herokuapp.com/cart"
-const MEMBER_URL = "https://sleepy-woodland-36566.herokuapp.com/members"
 
 const store = new Vuex.Store({
   state: {
-    products: [],
-    cart: [],
-    memberData:[],
-    logIn:{
-      memberData:[],
-      id:'',
-      cart:[],
-      authority:'',
-    },
+
+    memberList: [],
+    productList: [] ,
+    publiCart:[],
+    memberCart:[],
+
   },
   mutations: {
-    setProducts(state, products) {
-      state.products = products;
-    },
-    setProductsHighToLow(state) {
-      state.products = state.products.sort(function (a, b) {
-        return a.price - b.price
-      })
-    },
-    setProductsLowToHigh(state) {
-      state.products = state.products.sort(function (a, b) {
-        return b.price - a.price
-      })
+   
+    //會員資料
+    setMemberList(state, data) {
+      state.memberList = data
     },
 
-    //初始化/更新購物車
-    setCart(state, cart) {
-      state.cart = cart;
+    //產品列表
+    setProductList(state, data) {
+      state.productList = data
     },
-    //增加
-    addCart(state, item) {
-      state.cart.push(item);
-      console.log(state.cart.length)
-    },
-    //清空
-    clearCart(state) {
-      state.cart = [];
-    },
-    setMemberData(state,data){
-      state.memberData = data
+
+    //購物車
+    setCart(state,data){
+      state.setCart = data
     }
 
   },
 
   actions: {
-    //取得產品資料
-    axiosProducts({ commit }) {
-      axios.get(PRODUCT_URL)
-        .then(rs => {
-          commit('setProducts', rs.data)
-        })
+   
+    //取得firestore會員資料
+    getFireMember({ commit }) {
+      db.collection("members")
+      .orderBy('id')
+        .get()
+        .then(querySnapshot => {
+          let arr = []
+          querySnapshot.forEach(doc => {
+            // console.log(doc.data());
+            const data = {
+              id: doc.data().id,
+              auth: doc.data().auth,
+              email: doc.data().email,
+              userName: doc.data().userName,
+              cart:doc.data().data,
+            };
+            arr.push(data)
+          });
+          commit("setMemberList", arr)
+          
+        });
+
+    },
+    //fire
+    //取得firestore產品資料
+    getFireProducts({ commit }) {
+      db.collection("products")
+        .get()
+        .then(querySnapshot => {
+          let arr = []
+          querySnapshot.forEach(doc => {
+            // console.log(doc.data());
+            const data = {
+              id: doc.data().id,
+              title: doc.data().title,
+              type: doc.data().title,
+              brand: doc.data().brand,
+              price: doc.data().price,
+              description: doc.data().description,
+              imageURL: doc.data().imageURL
+            };
+            arr.push(data)
+          });
+          commit("setProductList", arr)
+
+        });
+
     },
 
-    //取得購物車資料
-    axiosCart({ commit }) {
-      axios.get(CART_URL)
-        .then(res => {
-          commit('setCart', res.data)
-        })
-    },
-    //增加產品至購物車
-    axiosAddCart({ commit }, item) {
-      axios.post(CART_URL, item)
-        .then((res => {
-          commit('addCart', res)
-        }))
-    },
-    //清空購物車
-    axiosClearCart({ commit, state }) {
-      // console.log(state.cart.length)
-      // axios.all()
-      for (let i = 0; i < state.cart.length; i++) {
-        axios.delete(`${CART_URL}/${state.cart[i].id}`)
-        // .then((res => {
-        //   // console.log(res.data)
-        // }))
-      }
-      commit('clearCart')
-    },
-    //取得搜尋後的產品列表
-    axiosSearchProducts({ commit }, keyWord) {
-      axios.get(`${PRODUCT_URL}?q=${keyWord}`)
-        .then(res => {
-          commit('setProducts', res.data)
-        })
-    },
-    //註冊帳號
-    axiosResgiter(context, member) {
-      axios.post(MEMBER_URL, member)
-        .then(res => {
-          console.log('成功註冊此會員' + res)
-        })
-    },
-    //獲取會員資料
-    axiosGetMemberData({commit}) {
-      axios.get(MEMBER_URL)
-      .then(res=>{
-         commit("setMemberData", res.data) 
-      })
-    }
+
   },
+
 
 
 })
 
 export default store;
 
-
-
-
-// Promise.all(state.cart.map(({ id }) => {
-//   axios.delete(`${CART_URL}/${id}`);
-// }));
-
-
-// axios.all(state.cart.map(({ id }) => {
-//   axios.delete(`${CART_URL}/${id}`);
-
-// }))
