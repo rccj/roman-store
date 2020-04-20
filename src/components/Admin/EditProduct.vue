@@ -4,29 +4,25 @@
     <div>
       <form @submit.prevent="updateProduct">
         <div>
-          <div>
-            <input disabled type="text" v-model="id" required />
-          </div>
+          <input disabled type="text" v-model="id" required />
         </div>
         <div>
-          <div>
-            <input type="text" v-model="title" required />
-          </div>
+          <input type="date" v-model="date" required />
         </div>
         <div>
-          <div>
-            <input type="text" v-model="brand" required />
-          </div>
+          <input type="text" v-model="amount" required />
         </div>
         <div>
-          <div>
-            <input type="text" v-model="type" required />
-          </div>
+          <input type="text" v-model="title" required />
         </div>
         <div>
-          <div>
-            <input type="text" v-model="price" required />
-          </div>
+          <input type="text" v-model="brand" required />
+        </div>
+        <div>
+          <input type="text" v-model="type" required />
+        </div>
+        <div>
+          <input type="text" v-model="price" required />
         </div>
         <div>
           <div>
@@ -34,9 +30,7 @@
           </div>
         </div>
         <div>
-          <div>
-            <input type="text" v-model="description" required />
-          </div>
+          <input type="text" v-model="description" required />
         </div>
         <button type="submit" class="btn">Submit</button>
         <router-link :to="{name:'view-product',params:{product_id:this.id}}">Cancel</router-link>
@@ -53,6 +47,8 @@ export default {
   data() {
     return {
       id: null,
+      date: null,
+      amount: null,
       title: null,
       brand: null,
       type: null,
@@ -70,6 +66,8 @@ export default {
         querySnapshot.forEach(doc => {
           next(vm => {
             vm.id = doc.data().id;
+            vm.date = doc.data().date;
+            vm.amount = doc.data().amount;
             vm.title = doc.data().title;
             vm.brand = doc.data().brand;
             vm.type = doc.data().type;
@@ -92,6 +90,8 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             this.id = doc.data().id;
+            this.date = doc.data().date;
+            this.amount = doc.data().amount;
             this.title = doc.data().title;
             this.brand = doc.data().brand;
             this.type = doc.data().type;
@@ -111,12 +111,14 @@ export default {
             doc.ref
               .update({
                 id: this.id,
+                date: this.date,
+                amount: this.amount,
                 title: this.title,
                 brand: this.brand,
                 type: this.type,
                 price: this.price,
-                imageURL:this.imageURL,
-                description: this.description,
+                imageURL: this.imageURL,
+                description: this.description
               })
               .then(() => {
                 this.$router.push({

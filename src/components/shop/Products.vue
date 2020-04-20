@@ -7,30 +7,39 @@
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
           <div>{{`$ `+item.price}}</div>
-          <button @click="addCart(item)">
-            <label v-if="1">加到購物車</label>
-          </button>
+          <el-button plain size="mini" @click="addCartPro(item)">
+            <i class="el-icon-shopping-cart-2"></i>
+          </el-button>
         </li>
       </ul>
     </div>
+    <button @click="testMemberCart">test</button>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "Products",
 
   computed: {
-    ...mapState(["productList"]),
+    ...mapState(["productList"])
   },
   methods: {
-    ...mapActions(["getFireProducts"]),
-    ...mapMutations(['addCart'])
-  },
+    ...mapMutations(["addCart"]),
+    addCartPro(item) {
+      this.addCart(item);
+      this.$notify({
+        title: "Successfully!",
+        message: "Added to cart.",
+        type: "success",
+        offset: 100
+      });
+    },
 
-  created() {
-    this.getFireProducts()
+    testMemberCart() {
+      console.log();
+    }
   }
 };
 </script>

@@ -1,8 +1,35 @@
 <template>
-  <div>
+  <div class="container">
+    <el-container max-width="500px">
+      <el-header>NEW MEMBER</el-header>
+      <el-form label-position="left" label-width="80px" @submit.prevent="registerData">
+        <el-form-item label="ID#">
+          <el-input type="text" v-model="member_id" required></el-input>
+        </el-form-item>
+        <el-form-item label="auth">
+          <el-input type="text" v-model="auth" required></el-input>
+        </el-form-item>
+        <el-form-item label="userName">
+          <el-input type="text" v-model="userName" required></el-input>
+        </el-form-item>
+        <el-form-item label="email">
+          <el-input type="text" v-model="email" required></el-input>
+        </el-form-item>
+        <el-form-item label="passWord">
+          <el-input type="text" v-model="passWord" required></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="submit">Register</el-button>
+          <router-link to="/admin/members">
+            <el-button>Cencel</el-button>
+          </router-link>
+        </el-form-item>
+      </el-form>
+    </el-container>
+
     <div class="container">
       <h1>新增會員</h1>
-      <form @submit.prevent="registerData" class="list">
+      <form @submit.prevent="registerData">
         <div>
           <input type="text" v-model="member_id" required />
           <label>ID#</label>
@@ -72,7 +99,7 @@ export default {
           email: this.email,
           userName: this.userName,
           passWord: this.passWord,
-          cart:[],
+          cart: []
         })
         .then(docRef =>
           this.$router.push("/admin/members").catch(error => console.log(err))
@@ -83,22 +110,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 1100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.list {
-  width: 500px;
-  display: flex;
-}
-.cover {
-  width: 100px;
-  height: 100px;
-  background: center center;
-  background-size: cover;
-  width: 100%;
-  height: 350px;
 }
 </style>

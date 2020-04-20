@@ -2,9 +2,10 @@
   <div class="wrap">
     <div class="wrap_top">
       <div class="wrap_top_box">
-        <router-link v-if="isLoggedIn" to="/admin">· Admin</router-link>
+        <router-link v-if="currentUser == 'stubstub8257@gmail.com'" to="/admin">· Admin</router-link>
         <router-link v-if="!isLoggedIn" to="/login">· LOGIN</router-link>
         <router-link v-if="!isLoggedIn" to="/register">· REGISTER</router-link>
+        <button @click="testMemberCart">按我</button>
       </div>
     </div>
     <div class="wrap_bottom">
@@ -27,9 +28,25 @@
         <div class="wrap_bottom_box_second">
           <router-link to="/shop">SHOP</router-link>
           <router-link to="/contact">CONTACT</router-link>
-          <router-link to="/cart">
-            CART({{cart.length}})
-          </router-link>
+
+          <el-popover placement="bottom-end" width="150" trigger="hover">
+            <el-table :data="cart">
+              <el-table-column width="100" property="title" label="title"></el-table-column>
+              <el-table-column width="100" property="price" label="price"></el-table-column>
+              <el-table-column width="100" property="address" label="地址"></el-table-column>
+            </el-table>
+            <el-button slot="reference" type="text">
+              <router-link to="/cart">
+                <span v-if="cart.length == 0">
+                  <i class="el-icon-shopping-cart-2"></i>
+                </span>
+                <span v-else>
+                  <i class="el-icon-shopping-cart-full"></i>
+                </span>
+                <span v-if="cart.length !== 0">({{cart.length}})</span>
+              </router-link>
+            </el-button>
+          </el-popover>
         </div>
       </div>
     </div>
@@ -48,16 +65,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cart"]),
-    isAdminLogged(){
-      if(currentUser == 'stubstub8257@gmail.com'){
-        return ture
-      }else false
+    ...mapState(["cart", "memberCart", "userEmail"]),
+    isAdminLogged() {
+      if (currentUser == "stubstub8257@gmail.com") {
+        return ture;
+      } else false;
     }
   },
   methods: {
-    ...mapMutations(['setCart']),
-
+    ...mapMutations(["setCart"]),
+    ...mapActions(["getMemberCart", "getFireProducts", "getUserEmail"]),
     logout() {
       firebase
         .auth()
@@ -65,6 +82,9 @@ export default {
         .then(() => {
           this.$router.go({ path: this.$router.path });
         });
+    },
+    testMemberCart() {
+      console.log(this.cart);
     }
   },
   created() {
@@ -72,10 +92,12 @@ export default {
       this.isLoggedIn = true;
       this.currentUser = firebase.auth().currentUser.email;
     }
-    this.setCart()
-  
+    this.getFireProducts();
+    this.getUserEmail();
+    this.getMemberCart(this.userEmail);
+    this.setCart();
   },
-  
+  mounted() {}
 };
 </script>
 <style scoped lang="scss">

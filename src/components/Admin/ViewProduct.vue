@@ -5,6 +5,8 @@
         <h4>{{title}}</h4>
       </li>
       <li>ID#：{{id}}</li>
+      <li>date：{{date}}</li>
+      <li>amount：{{amount}}</li>
       <li>title：{{title}}</li>
       <li>brand：{{brand}}</li>
       <li>type：{{type}}</li>
@@ -29,6 +31,8 @@ export default {
   data() {
     return {
       id: null,
+      date:null,
+      amount:null,
       title: null,
       brand: null,
       type:null,
@@ -46,6 +50,8 @@ export default {
         querySnapshot.forEach(doc => {
           next(vm => {
             vm.id = doc.data().id;
+            vm.date = doc.data().date;
+            vm.amount= doc.data().amount;
             vm.title = doc.data().title;
             vm.brand = doc.data().brand;
             vm.type = doc.data().type;
@@ -67,6 +73,8 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             this.id = doc.data().id;
+            this.date = doc.data().date;
+            this.amount = doc.data().amount;
             this.title = doc.data().title;
             this.brand = doc.data().brand;
             this.type = doc.data().type;

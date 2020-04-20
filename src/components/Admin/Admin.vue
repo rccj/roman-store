@@ -1,30 +1,35 @@
 <template>
-  <div>
-    <div class="title">
-      <router-link to="/admin">
-        <h1 class="admin">Admin</h1>
-      </router-link>
-      <h1>
-        <router-link to="/admin/members">members</router-link>
-      </h1>
-      <h1>
-        <router-link to="/admin/products">products</router-link>
-      </h1>
-      <router-view></router-view>
-    </div>
+  <div class="container">
+    <el-container style=" max-width: 1000px">
+      <el-header>
+        <router-link to="/admin">
+          <h1 class="admin">Admin</h1>
+        </router-link>
+      </el-header>
+      <el-main>
+        <el-menu class="el-menu-demo" mode="horizontal">
+          <router-link to="/admin/members">
+            <el-menu-item index="1">Members</el-menu-item>
+          </router-link>
+          <router-link to="/admin/products">
+            <el-menu-item index="2">Products</el-menu-item>
+          </router-link>
+        </el-menu>
+        <router-view></router-view>
+      </el-main>
+      <el-footer></el-footer>
+    </el-container>
   </div>
 </template>
 
 <script>
-export default {
-  name: "Admin"
-};
+export default {};
 </script>
 <style lang="scss" scoped>
-.title {
+.container {
+  text-align: center;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 .admin {
   font-size: 2em;

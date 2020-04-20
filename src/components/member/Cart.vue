@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <ul>
       <li v-for="item in cart">
         <div>{{item.title}}</div>
@@ -23,10 +23,8 @@ export default {
     ...mapState(['cart']),
   },
   methods:{
-    ...mapMutations(['setCart','deleteItem']),
+    ...mapMutations(['deleteItem']),
   },
-  created(){
-    this.setCart()
-  }
+
 }
 </script>

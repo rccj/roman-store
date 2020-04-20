@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <div class="container">
-      <h1>會員</h1>
-      <ul class="list">
-        <li v-for="member in memberList">
-          <div>id# {{member.id}}</div>
-          <div>auth：{{member.auth}}</div>
-          <div>email：{{member.email}}</div>
-          <div>userName：{{member.userName}}</div>
-          <router-link :to="{name:'view-member',params:{member_id: member.id}}">go</router-link>
-          <br />
-          <br />
-        </li>
-      </ul>
+    <div>
+      <el-table
+        :data="memberList.filter(data => !search 
+      || data.userName.toLowerCase().includes(search.toLowerCase())
+      || data.email.toLowerCase().includes(search.toLowerCase()))"
+        style="width: 100%"
+      >
+        <el-table-column label="#id" prop="id"></el-table-column>
+        <el-table-column label="auth" prop="auth"></el-table-column>
+        <el-table-column label="userName" prop="userName"></el-table-column>
+        <el-table-column label="email" prop="email"></el-table-column>
+
+        <el-table-column align="center">
+          <template slot="header" slot-scope="scope">
+            <el-input v-model="search" size="mini" placeholder="Search" />
+          </template>
+          <template slot-scope="scope">
+            <router-link :to="{name:'view-member',params:{member_id: scope.row.id}}">
+              <el-button size="mini" class="el-icon-view">View</el-button>
+            </router-link>
+          </template>
+        </el-table-column>
+      </el-table>
       <router-link to="/new-member">
-        <button>[+]</button>
+        <i class="el-icon-circle-plus"></i>
       </router-link>
     </div>
-  </div>
 </template>
 
 <script>
@@ -26,11 +34,20 @@ import db from "../db";
 
 import { mapActions, mapState } from "vuex";
 export default {
+  data() {
+    return {
+      search: "",
+      show3: true
+    };
+  },
   computed: {
     ...mapState(["memberList"])
   },
   methods: {
-    ...mapActions(["getFireMember"])
+    ...mapActions(["getFireMember"]),
+    handleEdit(index, row) {
+      console.log(index, row);
+    }
   },
   mounted() {
     this.getFireMember();
@@ -38,24 +55,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  width: 1100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.list {
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-}
-.cover {
-  width: 100px;
+.transition-box {
+  margin-bottom: 10px;
+  width: 200px;
   height: 100px;
-  background: center center;
-  background-size: cover;
-  width: 100%;
-  height: 350px;
+  border-radius: 4px;
+  background-color: #409eff;
+  text-align: center;
+  color: #fff;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  margin-right: 20px;
 }
 </style>

@@ -1,24 +1,29 @@
 <template>
-  <div>
-    <ul>
-      <li>
-        <h4>{{userName}}</h4>
-      </li>
-      <li>ID#：{{id}}</li>
-      <li>auth：{{auth}}</li>
-      <li>email：{{email}}</li>
-      <li>Cart：{{cart}}</li>
-    </ul>
-    <router-link to="/admin/members">Back</router-link>
-    <button @click="deleteMember" class="btn red">Delete</button>
-    <div>
-      <router-link :to="{name:'edit-member',params:{member_id:this.id}}">Edit</router-link>
-    </div>
+  <div class="container">
+    <el-container style=" max-width: 500px">
+      <el-header>{{userName}}</el-header>
+      <el-main class="box">
+        <div>ID#：{{id}}</div>
+        <div>auth：{{auth}}</div>
+        <div>email：{{email}}</div>
+        <div>Cart：{{cart.title}}</div>
+
+        <div>
+          <router-link to="/admin/members">
+            <el-button type="primary" size="small" icon="el-icon-arrow-left"></el-button>
+          </router-link>
+          <router-link :to="{name:'edit-member',params:{member_id:this.id}}">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </router-link>
+          <el-button type="danger" @click="deleteMember" icon="el-icon-delete" circle></el-button>
+        </div>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 import db from "../db";
 
 export default {
@@ -29,7 +34,7 @@ export default {
       auth: null,
       email: null,
       userName: null,
-      cart:[]
+      cart: []
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -54,7 +59,8 @@ export default {
   },
   methods: {
     fetchData() {
-      db.collection("members")
+      db
+        .collection("members")
         .where("id", "==", this.$route.params.member_id)
         .get()
         .then(querySnapshot => {
@@ -69,7 +75,8 @@ export default {
     },
     deleteMember() {
       if (confirm("Are you sure?")) {
-        db.collection("members")
+        db
+          .collection("members")
           .where("id", "==", this.$route.params.member_id)
           .get()
           .then(querySnapshot => {
@@ -83,3 +90,13 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: center;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+}
+</style>

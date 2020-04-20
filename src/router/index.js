@@ -7,6 +7,7 @@ import privacy from '@/components/contact/privacy'
 import location from '@/components/contact/location'
 import terms from '@/components/contact/terms'
 import shop from '@/components/shop/shop'
+import ProductDetail from '@/components/shop/ProductDetail'
 import Login from '@/components/member/login'
 import Register from '@/components/member/register'
 import Cart from '@/components/member/Cart'
@@ -60,7 +61,7 @@ let router = new Router({
 
       ]
     },
-    //產品
+    //管理員產品
     {
       path: '/new-product',
       name: 'new-product',
@@ -88,7 +89,7 @@ let router = new Router({
     },
 
 
-    //會員
+    //管理員會員
     {
       path: '/new-member',
       name: 'new-member',
@@ -149,12 +150,11 @@ let router = new Router({
       path: '/shop/:id?',
       name: 'shop',
       component: shop,
-      // children: [
-      //   {
-      //     path: 'search/:id?',
-      //     component: shop,
-      //   },
-      // ]
+    },
+    {
+      path: '/product-detail/:product_id',
+      name: 'product-detail',
+      component: ProductDetail,
     },
     {
       path: '/login',

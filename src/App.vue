@@ -27,16 +27,16 @@ export default {
     Nav,
     Footer,
     Home
-  }
+  },
 };
 </script>
 
 <style>
 * {
-  -webkit-user-select: none;
+  /* -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
-  user-select: none;
+  user-select: none; */
   
   max-width: 1680px;
   font-family: Montserrat, Helvetica Neue, Arial, sans-serif;

@@ -13,13 +13,14 @@ const store = new Vuex.Store({
   state: {
 
     memberList: [],
-    productList: [] ,
-    cart:[],
-    memberCart:[],
+    productList: [],
+    cart: [],
+    userEmail: '',
+
 
   },
   mutations: {
-   
+
     //會員資料
     setMemberList(state, data) {
       state.memberList = data
@@ -32,56 +33,87 @@ const store = new Vuex.Store({
 
 
 
+
     //獲取普通購物車資料
-    // setCart(state){
-    //   state.cart= JSON.parse(localStorage.getItem('cartData'))||[]
-    // },
-        setCart(state) {
-      if(firebase.auth().currentUser){
-        
+    setCart(state, data) {
+      if (firebase.auth().currentUser) {
+        state.cart = data
+        // console.log(state.cart)
+
         //讀取雲端會員的購物車
-      }else(
-        state.cart= JSON.parse(localStorage.getItem('cartData'))||[]
+      } else (
+        state.cart = JSON.parse(localStorage.getItem('cartData')) || []
       )
-      
+
     },
-    //增加本地購物車
-    // addCart(state,data){
-    //   state.cart.push(data)
-    //   localStorage.setItem('cartData',JSON.stringify(state.cart));
-    // },
-    addCart(state,data){
-      if(firebase.auth().currentUser){
+
+    addCart(state, data) {
+      if (firebase.auth().currentUser) {
         state.cart.push(data)
+
+        db.collection("members")
+          .where("email", "==", state.userEmail)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              doc.ref
+                .update({
+                  cart: state.cart
+                })
+                .then(() => {
+                  console.log('增加項目至購物車')
+                });
+            });
+          });
         //推上雲端會員購物車
-      }else{
+      } else {
         state.cart.push(data)
-        localStorage.setItem('cartData',JSON.stringify(state.cart));
+        localStorage.setItem('cartData', JSON.stringify(state.cart));
       }
     },
 
     //刪除購物車
-    // deleteItem(state,index){
-    //   state.cart.splice(index,1);
-    //   localStorage.setItem('cartData', JSON.stringify(state.cart));
-    // },
-    deleteItem(state,index){
-      if(firebase.auth().currentUser){
-        state.cart.splice(index,1);
+    deleteItem(state, index) {
+      if (firebase.auth().currentUser) {
+        if (confirm("Are you sure?")) {
+          state.cart.splice(index, 1);
+
+          db.collection("members")
+            .where("email", "==", state.userEmail)
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                doc.ref
+                  .update({
+                    cart: state.cart
+                  })
+                  .then(() => {
+                    console.log('增加項目至購物車')
+                  });
+              });
+            });
+        }
         //存回雲端
-      }else{
-        state.cart.splice(index,1);
+      } else {
+        state.cart.splice(index, 1);
         localStorage.setItem('cartData', JSON.stringify(state.cart));
       }
+    },
+    getMail(state, data) {
+      state.userEmail = data
     }
+
   },
 
   actions: {
-   
+    //取得當前會員信箱
+    getUserEmail({ commit }) {
+      commit('getMail', firebase.auth().currentUser.email)
+    },
     //取得firestore會員資料
     getFireMember({ commit }) {
       db.collection("members")
-      .orderBy('id')
+        .orderBy('id')
         .get()
         .then(querySnapshot => {
           let arr = []
@@ -92,12 +124,12 @@ const store = new Vuex.Store({
               auth: doc.data().auth,
               email: doc.data().email,
               userName: doc.data().userName,
-              cart:doc.data().data,
+              cart: doc.data().data,
             };
             arr.push(data)
           });
           commit("setMemberList", arr)
-          
+
         });
 
     },
@@ -105,6 +137,7 @@ const store = new Vuex.Store({
     //取得firestore產品資料
     getFireProducts({ commit }) {
       db.collection("products")
+      .orderBy('id')
         .get()
         .then(querySnapshot => {
           let arr = []
@@ -112,19 +145,34 @@ const store = new Vuex.Store({
             // console.log(doc.data());
             const data = {
               id: doc.data().id,
+              date: doc.data().date,
+              amount:doc.data().amount,
               title: doc.data().title,
               type: doc.data().title,
               brand: doc.data().brand,
               price: doc.data().price,
               description: doc.data().description,
               imageURL: doc.data().imageURL
+              
             };
             arr.push(data)
           });
           commit("setProductList", arr)
 
         });
+    },
+    //取得firestore會員購物車
+    getMemberCart({ commit }, userEmail) {
+      db.collection("members")
+        .where("email", "==", userEmail)
+        .get()
+        .then(querySnapshot => {
 
+          querySnapshot.forEach(doc => {
+            // commit('getCart', doc.data().cart)
+            commit('setCart', doc.data().cart)
+          });
+        });
     },
 
 

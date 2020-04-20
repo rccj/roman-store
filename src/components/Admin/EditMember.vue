@@ -4,24 +4,16 @@
     <div>
       <form @submit.prevent="updateMember">
         <div>
-          <div>
             <input disabled type="text" v-model="id" required />
-          </div>
         </div>
         <div>
-          <div>
             <input type="text" v-model="auth" required />
-          </div>
         </div>
         <div>
-          <div>
             <input type="text" v-model="email" required />
-          </div>
         </div>
         <div>
-          <div>
             <input type="text" v-model="userName" required />
-          </div>
         </div>
         <button type="submit" class="btn">Submit</button>
         <router-link :to="{name:'view-member',params:{member_id:this.id}}">Cancel</router-link>
@@ -81,7 +73,8 @@ export default {
         });
     },
     updateMember() {
-      db.collection("members")
+      db
+        .collection("members")
         .where("id", "==", this.$route.params.member_id)
         .get()
         .then(querySnapshot => {

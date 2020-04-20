@@ -1,21 +1,29 @@
 <template>
   <div>
-    <div class="container">
-      <h1>商品</h1>
-      <ul class="list">
-        <li class="product_data" v-for="(item,index) in productList">
-          <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
-          <div>{{item.id}}</div>
-          <div>{{item.brand}}</div>
-          <div>{{item.title}}</div>
-          <div>{{`$ `+item.price}}</div>
-          <router-link :to="{name:'view-product',params:{product_id: item.id}}">go</router-link>
-        </li>
-        <router-link to="/new-product">
-          <button>[+]</button>
-        </router-link>
-      </ul>
-    </div>
+    <el-table
+      :data="productList.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      style="width: 100%"
+    >
+      <el-table-column label="#id" prop="id" width="50px"></el-table-column>
+      <el-table-column label="Date" prop="date"></el-table-column>
+      <el-table-column label="Brand" prop="brand"></el-table-column>
+      <el-table-column label="Title" prop="title"></el-table-column>
+      <el-table-column label="$" prop="price"></el-table-column>
+      <el-table-column align="right">
+        <template slot="header" slot-scope="scope">
+          <el-input v-model="search" size="mini" placeholder="Search" />
+        </template>
+        <template slot-scope="scope">
+          <router-link :to="{name:'view-product',params:{product_id: scope.row.id}}">
+            <el-button size="mini" class="el-icon-view">View</el-button>
+          </router-link>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <router-link to="/new-product">
+      <i class="el-icon-circle-plus"></i>
+    </router-link>
   </div>
 </template>
 
@@ -25,6 +33,11 @@ import db from "../db";
 
 import { mapActions, mapState } from "vuex";
 export default {
+  data() {
+    return {
+      search: ""
+    };
+  },
   computed: {
     ...mapState(["productList"])
   },
@@ -33,27 +46,9 @@ export default {
   },
   created() {
     this.getFireProducts();
+    console.log(this.productList);
   }
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  width: 1100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.list {
-  width: 500px;
-  display: flex;
-}
-.cover {
-  width: 100px;
-  height: 100px;
-  background: center center;
-  background-size: cover;
-  width: 100%;
-  height: 350px;
-}
 </style>

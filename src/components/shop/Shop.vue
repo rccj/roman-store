@@ -18,14 +18,24 @@
     <div class="type_bar">
       <div class="_filter">
         <div class="_btn">Filter</div>
+          <!-- <el-select v-model="value" placeholder="请选择">
+          <el-option
+            key="item.value"
+            label="item.label"
+            value="item.value"
+          ></el-option> -->
+        </el-select>
       </div>
       <!-- 冒泡事件處理 -->
       <div class="_sort" @click.capture="showSort =!showSort">
         <div class="_btn">Sort by</div>
+
+        
+
         <ul class="_list" v-if="showSort">
-          <!-- <li @click="setProductsHighToLow">Price (low to high)</li>
+          <li @click="setProductsHighToLow">Price (low to high)</li>
           <li @click="setProductsLowToHigh">Price (high to low)</li>
-          <li @click="axiosProducts">clear all</li> -->
+          <li @click="axiosProducts">clear all</li>
         </ul>
       </div>
     </div>
@@ -34,10 +44,9 @@
 </template>
 
 <script>
-import {mapState,  mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 import Products from "./Products";
-
 
 export default {
   name: "Shop",
@@ -48,15 +57,10 @@ export default {
     };
   },
   components: {
-    Products,
+    Products
   },
-  computed: {
-
-  },
-  methods: {
-
-  },
-  
+  computed: {},
+  methods: {}
 };
 </script>
 
