@@ -17,8 +17,8 @@
             v-model="inputValue"
             style="outline:none;"
             @keyup.enter="search(inputValue)"
-          />-->
-          <!-- <button @click="resetProducts()">reset</button>
+          />
+          <button @click="resetProducts()">reset</button>
           <div class="search"></div>-->
         </div>
         <div v-if="isLoggedIn">{{currentUser}}</div>
@@ -29,11 +29,12 @@
           <router-link to="/shop">SHOP</router-link>
           <router-link to="/contact">CONTACT</router-link>
 
-          <el-popover placement="bottom-end" width="150" trigger="hover">
+          <el-popover placement="bottom-end" max-width="200" trigger="hover">
             <el-table :data="cart">
-              <el-table-column width="100" property="title" label="title"></el-table-column>
-              <el-table-column width="100" property="price" label="price"></el-table-column>
-              <el-table-column width="100" property="address" label="地址"></el-table-column>
+              <el-table-column width="120" property="title" label="title"></el-table-column>
+              
+              <el-table-column width="50" property="amount" ></el-table-column>
+              <el-table-column width="70" label="price"><template slot-scope="scope">{{scope.row.price *scope.row.amount}}</template></el-table-column>
             </el-table>
             <el-button slot="reference" type="text">
               <router-link to="/cart">
@@ -41,6 +42,7 @@
                   <i class="el-icon-shopping-cart-2"></i>
                 </span>
                 <span v-else>
+                  <!-- <span> -->
                   <i class="el-icon-shopping-cart-full"></i>
                 </span>
                 <span v-if="cart.length !== 0">({{cart.length}})</span>
@@ -61,7 +63,8 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      currentUser: false
+      currentUser: false,
+      inputValue: ""
     };
   },
   computed: {
@@ -95,9 +98,11 @@ export default {
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
-    this.setCart();
   },
-  mounted() {}
+  mounted() {
+    // console.log(this.cart);
+    // this.setCart();
+  }
 };
 </script>
 <style scoped lang="scss">

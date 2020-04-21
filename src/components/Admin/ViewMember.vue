@@ -3,12 +3,16 @@
     <el-container style=" max-width: 500px">
       <el-header>{{userName}}</el-header>
       <el-main class="box">
-        <div>ID#：{{id}}</div>
-        <div>auth：{{auth}}</div>
-        <div>email：{{email}}</div>
-        <div>Cart：{{cart.title}}</div>
-
-        <div>
+        <div class="list">
+          <el-avatar :size="80" :src="circleUrl"></el-avatar>
+          <div>
+            <div class="item">ID#：{{id}}</div>
+            <div class="item">auth：{{auth}}</div>
+            <div class="item">email：{{email}}</div>
+            <div class="item">Cart：{{cart.title}}</div>
+          </div>
+        </div>
+        <div class="icons">
           <router-link to="/admin/members">
             <el-button type="primary" size="small" icon="el-icon-arrow-left"></el-button>
           </router-link>
@@ -34,7 +38,9 @@ export default {
       auth: null,
       email: null,
       userName: null,
-      cart: []
+      cart: [],
+      circleUrl:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -81,6 +87,7 @@ export default {
           .get()
           .then(querySnapshot => {
             querySnapshot.forEach(doc => {
+             
               doc.ref.delete();
               this.$router.push("/admin/members");
             });
@@ -94,9 +101,30 @@ export default {
 .container {
   display: flex;
   justify-content: center;
-}
-.box {
-  display: flex;
-  flex-direction: column;
+  .el-header {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    .list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .item {
+        font-size: 1.5em;
+      }
+    }
+    .icons {
+      display: flex;
+      justify-content: center;
+
+      & > * {
+        margin: 0 5px;
+      }
+    }
+  }
 }
 </style>

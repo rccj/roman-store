@@ -6,6 +6,7 @@
       </li>
       <li>ID#：{{id}}</li>
       <li>date：{{date}}</li>
+      <li>stock：{{stock}}</li>
       <li>amount：{{amount}}</li>
       <li>title：{{title}}</li>
       <li>brand：{{brand}}</li>
@@ -32,6 +33,7 @@ export default {
     return {
       id: null,
       date:null,
+      stock:null,
       amount:null,
       title: null,
       brand: null,
@@ -51,6 +53,7 @@ export default {
           next(vm => {
             vm.id = doc.data().id;
             vm.date = doc.data().date;
+            vm.stock= doc.data().stock;
             vm.amount= doc.data().amount;
             vm.title = doc.data().title;
             vm.brand = doc.data().brand;
@@ -74,6 +77,7 @@ export default {
           querySnapshot.forEach(doc => {
             this.id = doc.data().id;
             this.date = doc.data().date;
+            this.stock = doc.data().stock;
             this.amount = doc.data().amount;
             this.title = doc.data().title;
             this.brand = doc.data().brand;

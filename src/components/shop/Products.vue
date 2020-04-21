@@ -2,14 +2,20 @@
   <div>
     <div class="container">
       <ul class="product">
-        <li class="product_data" v-for="(item,index) in productList">
+        <li class="product_data" v-for="item in productList">
           <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}"></div>
           <div>{{item.brand}}</div>
           <div>{{item.title}}</div>
           <div>{{`$ `+item.price}}</div>
-          <el-button plain size="mini" @click="addCartPro(item)">
-            <i class="el-icon-shopping-cart-2"></i>
-          </el-button>
+          <el-button
+            plain
+            size="mini"
+            @click="addCartPro(item)"
+            class="el-icon-shopping-cart-2"
+          ></el-button>
+          <router-link :to="{name:'product-detail',params:{product_id: item.id}}">
+            <el-button size="mini" class="el-icon-view"></el-button>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -21,6 +27,9 @@
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "Products",
+  data() {
+    return {};
+  },
 
   computed: {
     ...mapState(["productList"])

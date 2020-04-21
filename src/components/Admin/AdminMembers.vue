@@ -15,11 +15,13 @@
           <template slot="header" slot-scope="scope">
             <el-input v-model="search" size="mini" placeholder="Search" />
           </template>
+        
           <template slot-scope="scope">
             <router-link :to="{name:'view-member',params:{member_id: scope.row.id}}">
               <el-button size="mini" class="el-icon-view">View</el-button>
             </router-link>
           </template>
+          
         </el-table-column>
       </el-table>
       <router-link to="/new-member">

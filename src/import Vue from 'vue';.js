@@ -11,12 +11,12 @@ Vue.use(Vuex, axios);
 
 const store = new Vuex.Store({
   state: {
+
     memberList: [],
     productList: [],
     cart: [],
     userEmail: '',
-    order: [],
-    totalPrice: null,
+    order:[]
   },
   mutations: {
 
@@ -30,10 +30,14 @@ const store = new Vuex.Store({
       state.productList = data
     },
 
+
+
+
     //獲取普通購物車資料
     setCart(state, data) {
       if (firebase.auth().currentUser) {
         state.cart = data
+        // console.log(state.cart)
 
         //讀取雲端會員的購物車
       } else (
@@ -44,26 +48,7 @@ const store = new Vuex.Store({
 
     addCart(state, data) {
       if (firebase.auth().currentUser) {
-
-        let findData = state.cart.find(item => {
-          return item.id == data.id
-        })
-        if (findData !== undefined) {
-          console.log('有買過')
-        } else {
-          console.log('沒買過')
-        }
-
-        if (findData !== undefined) {
-          state.cart.forEach(item => {
-            if (item.id == data.id) {
-              item.amount += Number(data.amount)
-            }
-          })
-        }
-        else {
-          state.cart.push(data)
-        }
+        state.cart.push(data)
 
         db.collection("members")
           .where("email", "==", state.userEmail)
@@ -115,13 +100,6 @@ const store = new Vuex.Store({
     },
     getMail(state, data) {
       state.userEmail = data
-    },
-    getTotalPrice(state) {
-      let total = state.cart.reduce((prev, item) => {
-        return prev + item.price * item.amount
-      }, 0)
-      state.totalPrice = total
-
     }
 
   },
@@ -158,7 +136,7 @@ const store = new Vuex.Store({
     //取得firestore產品資料
     getFireProducts({ commit }) {
       db.collection("products")
-        .orderBy('id')
+      .orderBy('id')
         .get()
         .then(querySnapshot => {
           let arr = []
@@ -167,15 +145,15 @@ const store = new Vuex.Store({
             const data = {
               id: doc.data().id,
               date: doc.data().date,
-              stock: doc.data().stock,
-              amount: doc.data().amount,
+              stock:doc.data().stock,
+              amount:doc.data().amount,
               title: doc.data().title,
               type: doc.data().type,
               brand: doc.data().brand,
               price: doc.data().price,
               description: doc.data().description,
               imageURL: doc.data().imageURL
-
+              
             };
             arr.push(data)
           });
@@ -192,7 +170,6 @@ const store = new Vuex.Store({
 
           querySnapshot.forEach(doc => {
             // commit('getCart', doc.data().cart)
-            // console.log(doc.data().cart)
             commit('setCart', doc.data().cart)
           });
         });

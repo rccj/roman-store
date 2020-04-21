@@ -12,9 +12,13 @@
           <label>date</label>
         </div>
         <div class="item">
-          <!-- <input type="text" v-model="amount" required /> -->
-          <el-input-number size="mini" :min="0" :max="999" v-model="amount" required></el-input-number>
-          <label>amount</label>
+          <!-- <input type="text" v-model="stock" required /> -->
+          <el-input-number size="mini" :min="0" :max="999" v-model="stock" required></el-input-number>
+          <label>stock</label>
+        </div>
+        <div class="item">
+          <input type="text" v-model="amonut" required />
+          <label>amonut</label>
         </div>
         <div class="item">
           <input type="text" v-model="title" required />
@@ -41,7 +45,9 @@
           <label>description</label>
         </div>
         <button type="submit">新增</button>
-        <router-link to="/admin/products"><el-button>Cencel</el-button></router-link>
+        <router-link to="/admin/products">
+          <el-button>Cencel</el-button>
+        </router-link>
       </form>
     </div>
   </div>
@@ -58,6 +64,7 @@ export default {
     return {
       id: null,
       date: null,
+      stock: null,
       amount: null,
       title: null,
       brand: null,
@@ -74,7 +81,8 @@ export default {
         .add({
           id: this.id,
           date: this.date,
-          amount: this.id,
+          stock: this.stock,
+          amount: this.amount,
           title: this.title,
           brand: this.brand,
           type: this.type,
