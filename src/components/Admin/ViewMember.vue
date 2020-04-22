@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="icons">
-          <router-link to="/admin/members">
+          <router-link :to="{name: 'members'}">
             <el-button type="primary" size="small" icon="el-icon-arrow-left"></el-button>
           </router-link>
           <router-link :to="{name:'edit-member',params:{member_id:this.id}}">

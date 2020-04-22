@@ -11,7 +11,7 @@
           <div class="price">$ {{product.price}}</div>
           <div class="description">{{product.description}}</div>
           <div>
-            <el-select v-model="value" placeholder="size">
+            <el-select v-model="value" disabled placeholder="F">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -27,7 +27,7 @@
               :max="10"
             ></el-input-number>
           </div>
-          <el-button type="primary" plain @click="addCart(product)">
+          <el-button type="primary" plain @click="addCartPro(product)">
             <i class="el-icon-shopping-cart-2"></i>Add to cart
           </el-button>
         </div>
@@ -59,7 +59,6 @@ export default {
         imageURL: null,
         description: null
       },
-
 
       options: [
         {

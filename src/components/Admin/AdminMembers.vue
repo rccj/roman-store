@@ -24,7 +24,7 @@
           
         </el-table-column>
       </el-table>
-      <router-link to="/new-member">
+      <router-link :to="{name: 'new-member'}">
         <i class="el-icon-circle-plus"></i>
       </router-link>
     </div>

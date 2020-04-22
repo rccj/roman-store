@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="submit">Register</el-button>
-          <router-link to="/admin/members">
+          <router-link :to="{name: 'members'}">
             <el-button>Cencel</el-button>
           </router-link>
         </el-form-item>

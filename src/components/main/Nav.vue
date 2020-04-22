@@ -2,10 +2,12 @@
   <div class="wrap">
     <div class="wrap_top">
       <div class="wrap_top_box">
-        <router-link v-if="currentUser == 'stubstub8257@gmail.com'" to="/admin">· Admin</router-link>
-        <router-link v-if="!isLoggedIn" to="/login">· LOGIN</router-link>
-        <router-link v-if="!isLoggedIn" to="/register">· REGISTER</router-link>
-        <button @click="testMemberCart">按我</button>
+        <router-link v-if="currentUser == 'stubstub8257@gmail.com'" :to="{name: 'admin'}">· Admin</router-link>
+        <router-link v-if="!isLoggedIn" :to="{name: 'login'}">· LOGIN</router-link>
+        <router-link v-if="!isLoggedIn" :to="{name: 'register'}">· REGISTER</router-link>
+        <div v-if="isLoggedIn">· {{currentUser}} · </div>
+        <button v-if="isLoggedIn" @click="logout">Logout</button>
+        <!-- <button @click="testMemberCart">按我</button> -->
       </div>
     </div>
     <div class="wrap_bottom">
@@ -21,23 +23,22 @@
           <button @click="resetProducts()">reset</button>
           <div class="search"></div>-->
         </div>
-        <div v-if="isLoggedIn">{{currentUser}}</div>
-        <div v-if="isLoggedIn">
-          <button @click="logout">Logout</button>
-        </div>
+
         <div class="wrap_bottom_box_second">
-          <router-link to="/shop">SHOP</router-link>
-          <router-link to="/contact">CONTACT</router-link>
+          <router-link :to="{name: 'shop'}">SHOP</router-link>
+          <router-link :to="{name: 'contact'}">CONTACT</router-link>
 
           <el-popover placement="bottom-end" max-width="200" trigger="hover">
             <el-table :data="cart">
               <el-table-column width="120" property="title" label="title"></el-table-column>
-              
-              <el-table-column width="50" property="amount" ></el-table-column>
-              <el-table-column width="70" label="price"><template slot-scope="scope">{{scope.row.price *scope.row.amount}}</template></el-table-column>
+
+              <el-table-column width="50" property="amount"></el-table-column>
+              <el-table-column width="70" label="price">
+                <template slot-scope="scope">{{scope.row.price *scope.row.amount}}</template>
+              </el-table-column>
             </el-table>
             <el-button slot="reference" type="text">
-              <router-link to="/cart">
+              <router-link :to="{name: 'cart'}">
                 <span v-if="cart.length == 0">
                   <i class="el-icon-shopping-cart-2"></i>
                 </span>
@@ -48,6 +49,7 @@
                 <span v-if="cart.length !== 0">({{cart.length}})</span>
               </router-link>
             </el-button>
+            <div class="total">total: {{getTotalPrice}}</div>
           </el-popover>
         </div>
       </div>
@@ -57,7 +59,7 @@
 <script>
 import firebase from "firebase";
 
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Nav",
   data() {
@@ -69,6 +71,7 @@ export default {
   },
   computed: {
     ...mapState(["cart", "memberCart", "userEmail"]),
+    ...mapGetters(["getTotalPrice"]),
     isAdminLogged() {
       if (currentUser == "stubstub8257@gmail.com") {
         return ture;
@@ -98,10 +101,10 @@ export default {
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
+    this.setCart();
   },
   mounted() {
     // console.log(this.cart);
-    // this.setCart();
   }
 };
 </script>
@@ -154,5 +157,9 @@ export default {
       }
     }
   }
+}
+.total {
+  text-align: end;
+  margin: 0 20px;
 }
 </style>

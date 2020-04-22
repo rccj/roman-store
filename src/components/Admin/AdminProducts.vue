@@ -21,7 +21,7 @@
       </el-table-column>
     </el-table>
 
-    <router-link to="/new-product">
+    <router-link :to="{name:'new-product'}">
       <i class="el-icon-circle-plus"></i>
     </router-link>
   </div>

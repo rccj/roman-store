@@ -45,7 +45,7 @@
           <label>description</label>
         </div>
         <button type="submit">新增</button>
-        <router-link to="/admin/products">
+        <router-link :to="{name: 'products'}">
           <el-button>Cencel</el-button>
         </router-link>
       </form>

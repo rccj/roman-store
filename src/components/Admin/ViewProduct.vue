@@ -15,7 +15,7 @@
       <li>imageURL：{{imageURL}}</li>
       <li>description：{{description}}</li>
     </ul>
-    <router-link to="/admin/products">Back</router-link>
+    <router-link :to="{name: 'products'}">Back</router-link>
     <button @click="deleteProduct" class="btn red">Delete</button>
     <div>
       <router-link :to="{name:'edit-product',params:{product_id:this.id}}">Edit</router-link>

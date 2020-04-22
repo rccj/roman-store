@@ -2,7 +2,7 @@
   <div class="body">
     <div class="container">
       <el-table :data="cart" tooltip-effect="dark" style="width: 100%" max-height="600">
-        <el-table-column label="amount" width="150">
+        <el-table-column label width="150">
           <template slot-scope="scope">
             <router-link :to="{name:'product-detail' ,params:{product_id:scope.row.id}}">
               <div class="image" :style="{backgroundImage:`url('${scope.row.imageURL}')`}"></div>
@@ -16,7 +16,7 @@
 
         <el-table-column prop="brand" label="brand" width="120"></el-table-column>
 
-        <el-table-column label="amount" width="150">
+        <el-table-column label="amount" width="180">
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.amount"
@@ -29,30 +29,26 @@
         </el-table-column>
 
         <el-table-column label="price" width="80">
-          <template slot-scope="scope">{{ scope.row.price * scope.row.amount}}</template>
+          <template slot-scope="scope"><div>$ {{ scope.row.price * scope.row.amount}}</div></template>
         </el-table-column>
 
-        <el-table-column label width="120">
+        <el-table-column label width="100">
           <template slot-scope="scope">
             <el-button @click="deleteItem(scope.$index)" type="danger" icon="el-icon-delete" circle></el-button>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column> -->
       </el-table>
-      Total :{{totalCost}}
-      <!-- <ul>
-        <li v-for="item in cart">
-          <div>{{item.title}}</div>
-          <div>{{item.price}}</div>
-          <button @click="deleteItem">移除</button>
-        </li>
-      </ul>-->
+
+      Total : $ {{getTotalPrice}}
+      <router-link :to="{name: 'checkout'}">
+        <el-button plain>Check out</el-button>
+      </router-link>
     </div>
   </div>
 </template>
 <script>
-import firebase from "firebase";
-import { mapState, mapMutations, mapActions } from "vuex";
+
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Cart",
   data() {
@@ -63,12 +59,7 @@ export default {
   },
   computed: {
     ...mapState(["cart", "totalPrice"]),
-    totalCost(){
-      let total = this.cart.reduce((prev, item) => {
-        return prev + item.price * item.amount;
-      }, 0);
-      return total
-    }
+    ...mapGetters(['getTotalPrice']),
   },
   methods: {
     ...mapMutations(["deleteItem", "getTotalPrice"])

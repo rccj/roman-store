@@ -2,16 +2,16 @@
   <div class="container">
     <el-container style=" max-width: 1000px">
       <el-header>
-        <router-link to="/admin">
+        <router-link :to="{name: 'admin'}">
           <h1 class="admin">Admin</h1>
         </router-link>
       </el-header>
       <el-main>
         <el-menu class="el-menu-demo" mode="horizontal">
-          <router-link to="/admin/members">
+          <router-link :to="{name: 'members'}">
             <el-menu-item index="1">Members</el-menu-item>
           </router-link>
-          <router-link to="/admin/products">
+          <router-link :to="{name: 'products'}">
             <el-menu-item index="2">Products</el-menu-item>
           </router-link>
         </el-menu>

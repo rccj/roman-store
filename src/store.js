@@ -16,7 +16,6 @@ const store = new Vuex.Store({
     cart: [],
     userEmail: '',
     order: [],
-    totalPrice: null,
   },
   mutations: {
 
@@ -42,29 +41,28 @@ const store = new Vuex.Store({
 
     },
 
+
     addCart(state, data) {
-      if (firebase.auth().currentUser) {
 
-        let findData = state.cart.find(item => {
-          return item.id == data.id
+      let findData = state.cart.find(item => {
+        return item.id == data.id
+      })
+      // if (findData !== undefined) {
+      //   console.log('有買過')
+      // } else {
+      //   console.log('沒買過')
+      // }
+      if (findData !== undefined) {
+        state.cart.forEach(item => {
+          if (item.id == data.id) {
+            item.amount = Number(item.amount) + Number(data.amount)
+          }
         })
-        if (findData !== undefined) {
-          console.log('有買過')
-        } else {
-          console.log('沒買過')
-        }
-
-        if (findData !== undefined) {
-          state.cart.forEach(item => {
-            if (item.id == data.id) {
-              item.amount += Number(data.amount)
-            }
-          })
-        }
-        else {
-          state.cart.push(data)
-        }
-
+      }
+      else {
+        state.cart.push(data)
+      }
+      if (firebase.auth().currentUser) {
         db.collection("members")
           .where("email", "==", state.userEmail)
           .get()
@@ -80,8 +78,9 @@ const store = new Vuex.Store({
             });
           });
         //推上雲端會員購物車
-      } else {
-        state.cart.push(data)
+      }
+      else {
+        // state.cart.push(data)
         localStorage.setItem('cartData', JSON.stringify(state.cart));
       }
     },
@@ -116,14 +115,15 @@ const store = new Vuex.Store({
     getMail(state, data) {
       state.userEmail = data
     },
+
+  },
+  getters:{
     getTotalPrice(state) {
       let total = state.cart.reduce((prev, item) => {
         return prev + item.price * item.amount
       }, 0)
-      state.totalPrice = total
-
+      return total
     }
-
   },
 
   actions: {

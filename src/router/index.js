@@ -10,7 +10,8 @@ import shop from '@/components/shop/shop'
 import ProductDetail from '@/components/shop/ProductDetail'
 import Login from '@/components/member/login'
 import Register from '@/components/member/register'
-import Cart from '@/components/member/Cart'
+import Cart from '@/components/shop/Cart'
+import Checkout from '@/components/shop/Checkout'
 
 
 //管理層
@@ -43,7 +44,7 @@ let router = new Router({
     //管理者權限
     {
       path: '/admin',
-      name: 'Admin',
+      name: 'admin',
       component: Admin,
       meta: {
         requiresAdmin: true
@@ -51,12 +52,16 @@ let router = new Router({
       children: [
         {
           path: 'members',
+          name: 'members',
           component: AdminMembers,
         },
         {
           path: 'products',
+          name: 'products',
           component: AdminProducts,
-
+          children:[
+            
+          ]
         },
 
       ]
@@ -118,6 +123,14 @@ let router = new Router({
       path: '/cart',
       name: 'cart',
       component: Cart,
+      children: [
+  
+      ]
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: Checkout,
     },
 
 
@@ -130,18 +143,22 @@ let router = new Router({
       children: [
         {
           path: 'services',
+          name: 'services',
           component: services,
         },
         {
           path: 'location',
+          name: 'location',
           component: location,
         },
         {
           path: 'terms',
+          name: 'terms',
           component: terms,
         },
         {
           path: 'privacy',
+          name: 'privacy',
           component: privacy,
         },
       ]
@@ -158,7 +175,7 @@ let router = new Router({
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login,
       meta: {
         requiresGuess: true
@@ -166,7 +183,7 @@ let router = new Router({
     },
     {
       path: '/register',
-      name: 'Register',
+      name: 'register',
       component: Register,
       meta: {
         requiresGuess: true
@@ -199,7 +216,7 @@ router.beforeEach((to, from, next) => {//進到這個頁面之前
           redirect: to.fullPath
         }
       })
-    } else if(firebase.auth().currentUser && email == admin){
+    } else if (firebase.auth().currentUser && email == admin) {
       next();
     }
     // else { //如果有登入就到達新頁面
@@ -209,7 +226,7 @@ router.beforeEach((to, from, next) => {//進到這個頁面之前
   }
   else if (to.matched.some(record => record.meta.requiresMember)) {
     //Check if logged in
-    if (!firebase.auth().currentUser ) {
+    if (!firebase.auth().currentUser) {
       //Go to login
       next({
         path: '/login',

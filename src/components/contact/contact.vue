@@ -3,10 +3,10 @@
     <div class="container">
       <div>CONTACT US</div>
       <div class="list">
-        <router-link to="/contact/services" class="list_item">SERVICES</router-link>
-        <router-link to="/contact/location" class="list_item">LOCATION</router-link>
-        <router-link to="/contact/terms" class="list_item">TERMS OF USE</router-link>
-        <router-link to="/contact/privacy" class="list_item">PRIVACY</router-link>
+        <router-link :to="{name: 'services'}" class="list_item">SERVICES</router-link>
+        <router-link :to="{name: 'location'}" class="list_item">LOCATION</router-link>
+        <router-link :to="{name: 'terms'}" class="list_item">TERMS OF USE</router-link>
+        <router-link :to="{name: 'privacy'}" class="list_item">PRIVACY</router-link>
       </div>
       <router-view />
     </div>
