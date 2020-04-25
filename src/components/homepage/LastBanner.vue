@@ -13,8 +13,7 @@
 
 <script>
 export default {
-  name:"LastBanner",
-
+  name: "LastBanner"
 };
 </script>
 
@@ -25,11 +24,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  &>*{
-      margin-bottom: 20px ;
+  .content {
+    padding: 0 10px;
+    text-align: center;
   }
-  .title{
+  & > * {
+    margin-bottom: 20px;
+  }
+  .title {
     font-size: 1.5em;
     font-weight: 500;
   }
@@ -39,7 +41,6 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    
 
     .photo {
       height: 100%;
@@ -60,6 +61,32 @@ export default {
     }
     .photo_d {
       background-image: url(../../assets/img/last-4.jpg);
+    }
+  }
+}
+@media screen and(max-width:768px ) {
+  .container {
+    height: 900px;
+
+    .photos {
+      flex-wrap: wrap;
+      .photo {
+        width: 48%;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+@media screen and(max-width:480px ) {
+  .container {
+    height: 1700px;
+
+    .photos {
+      .photo {
+        width: 95%;
+        margin-bottom: 10px;
+      }
     }
   }
 }

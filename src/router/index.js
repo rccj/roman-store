@@ -33,6 +33,12 @@ import db from '../components/db'
 Vue.use(Router)
 
 let router = new Router({
+  scrollBehavior(to, from,savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    }
+  },
   routes: [
     //首頁
     {
@@ -191,12 +197,6 @@ let router = new Router({
     },
   ]
 });
-
-
-
-
-
-firebase.auth().currentUser
 
 
 //Nav Guards

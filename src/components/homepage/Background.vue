@@ -1,14 +1,13 @@
 <template>
   <div class="container">
     <div class="_image">
-      <div class="_text">Proin semper nisl vel eros porta volutpat.</div>
-    </div>
+        <div class="_text">Proin semper nisl vel eros porta volutpat.</div>
+      </div>
   </div>
 </template>
 <script>
 export default {
-  name:"background",
-
+  name: "background"
 };
 </script>
 <style scoped lang="scss">
@@ -17,10 +16,11 @@ export default {
   height: 500px;
   overflow: hidden;
   position: relative;
+  margin: 100px 0;
 
   ._image {
     width: 100%;
-    height: 500px;
+    height: 100%;
     background: {
       image: url(../../assets/img/background.jpg);
       size: cover;

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div class="body">
+      <el-backtop></el-backtop>
       <Nav class="nav"></Nav>
       <div class="block"></div>
       <router-view />
@@ -14,20 +15,19 @@ import Nav from "@/components/main/nav";
 import Home from "@/components/main/Home";
 import Footer from "@/components/main/footer";
 
-
 export default {
   name: "App",
   data() {
     return {
-      documents: [],
-    }
+      documents: []
+    };
   },
 
   components: {
     Nav,
     Footer,
     Home
-  },
+  }
 };
 </script>
 
@@ -37,8 +37,8 @@ export default {
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none; */
-  
-  max-width: 1680px;
+
+  /* max-width: 1680px; */
   font-family: Montserrat, Helvetica Neue, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -53,11 +53,20 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-.body {
+  /* position: absolute; */
+  /* max-width: 1680px; */
+  width: 100%;
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  align-items: center;
+  /* left: 50%; 
+  transform: translate(0%, 0); */
+}
+.body {
+  max-width: 1680px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow: hidden;
 }
 .block {
@@ -65,8 +74,8 @@ export default {
   height: 110px;
 }
 .nav {
-  z-index: 2;
   position: fixed;
+  z-index: 10;
   width: 100%;
 }
 </style>

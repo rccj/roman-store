@@ -8,6 +8,13 @@ import firebase from "firebase"
 import "./components/db"
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faGoogle,faYoutube ,faInstagramSquare,faFacebook,faTwitter} from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add( faGoogle,faYoutube,faInstagramSquare,faFacebook,faTwitter);
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(ElementUI);
 

@@ -16,6 +16,8 @@ const store = new Vuex.Store({
     cart: [],
     userEmail: '',
     order: [],
+    shipping: 60,
+    tatalWithTax:'',
   },
   mutations: {
 
@@ -28,7 +30,34 @@ const store = new Vuex.Store({
     setProductList(state, data) {
       state.productList = data
     },
+    //重新排列產品列表
+    //低到高
+    setProductsLowToHigh(state) {
+      state.productList = state.productList.sort((a, b) => {
+        return a.price - b.price
+      })
+    },
 
+    //高到低
+    setProductsHighToLow(state) {
+      state.productList = state.productList.sort((a, b) => {
+        return b.price - a.price
+      })
+    },
+
+    setFilter(state, value) {
+
+      if (value[0] == 'type') {
+        state.productList = state.productList.filter(item => {
+          return item.type === value[1]
+        })
+      } else if (value[0] == 'brand') {
+        state.productList = state.productList.filter(item => {
+          return item.brand === value[1]
+        })
+      }
+
+    },
     //獲取普通購物車資料
     setCart(state, data) {
       if (firebase.auth().currentUser) {
@@ -41,7 +70,7 @@ const store = new Vuex.Store({
 
     },
 
-
+    //添加項目至購物車
     addCart(state, data) {
 
       let findData = state.cart.find(item => {
@@ -112,17 +141,106 @@ const store = new Vuex.Store({
         localStorage.setItem('cartData', JSON.stringify(state.cart));
       }
     },
+    //清空購物車
+    clearCart(state) {
+      state.cart = []
+
+      if (firebase.auth().currentUser) {
+        db.collection("members")
+          .where("email", "==", state.userEmail)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              doc.ref
+                .update({
+                  cart: state.cart
+                })
+                .then(() => {
+                  console.log('增加項目至購物車')
+                });
+            });
+          });
+      } else {
+        localStorage.setItem('cartData', JSON.stringify(state.cart));
+
+      }
+    },
+    //獲取使用者信箱
     getMail(state, data) {
       state.userEmail = data
     },
+    //提交訂單
+    makeOrder(state, i) {
+      // if (firebase.auth().currentUser) {
+      db.collection("orders")
+        .add({
+          'total(with 10% tax)':`$ ${state.tatalWithTax}`,
+          customer:state.userEmail,
+          cart: state.cart,
+          information: i
+        })
+        .then(() => {
+          console.log('新增訂單')
+        });
+      // }
+    }
+
 
   },
-  getters:{
+  getters: {
     getTotalPrice(state) {
       let total = state.cart.reduce((prev, item) => {
         return prev + item.price * item.amount
       }, 0)
       return total
+    },
+    getTax(state, getters) {
+      let tax = (getters.getTotalPrice + state.shipping) / 10
+      return tax
+    },
+    getTotalwithTax(state,getters){
+      state.tatalWithTax = getters.getTotalPrice + getters.getTax
+      return getters.getTotalPrice + getters.getTax
+    },
+    getFilterList(state) {
+      let typeChildren = []
+      let typeArr = []
+      state.productList.forEach(item => {
+        typeArr.push(item.type)
+      })
+      let NewTypeArr = [...(new Set(typeArr))]
+      NewTypeArr.forEach(item => {
+        typeChildren.push({
+          value: item,
+          label: item,
+        })
+      })
+      let brandChildren = []
+      let brandArr = []
+      state.productList.forEach(item => {
+        brandArr.push(item.brand)
+      })
+      let NewBrandArr = [...(new Set(brandArr))]
+      NewBrandArr.forEach(item => {
+        brandChildren.push({
+          value: item,
+          label: item,
+        })
+      })
+
+      let getoptions = [
+        {
+          value: 'type',
+          label: 'type',
+          children: typeChildren
+        },
+        {
+          value: 'brand',
+          label: 'brand',
+          children: brandChildren
+        }
+      ]
+      return getoptions
     }
   },
 
@@ -157,31 +275,35 @@ const store = new Vuex.Store({
     //fire
     //取得firestore產品資料
     getFireProducts({ commit }) {
-      db.collection("products")
-        .orderBy('id')
-        .get()
-        .then(querySnapshot => {
-          let arr = []
-          querySnapshot.forEach(doc => {
-            // console.log(doc.data());
-            const data = {
-              id: doc.data().id,
-              date: doc.data().date,
-              stock: doc.data().stock,
-              amount: doc.data().amount,
-              title: doc.data().title,
-              type: doc.data().type,
-              brand: doc.data().brand,
-              price: doc.data().price,
-              description: doc.data().description,
-              imageURL: doc.data().imageURL
+      return new Promise(resolve => {
+        db.collection("products")
+          .orderBy('id')
+          .get()
+          .then(querySnapshot => {
+            let arr = []
+            querySnapshot.forEach(doc => {
+              // console.log(doc.data());
+              const data = {
+                id: doc.data().id,
+                date: doc.data().date,
+                stock: doc.data().stock,
+                amount: doc.data().amount,
+                title: doc.data().title,
+                type: doc.data().type,
+                brand: doc.data().brand,
+                price: doc.data().price,
+                description: doc.data().description,
+                imageURL: doc.data().imageURL
 
-            };
-            arr.push(data)
+              };
+              arr.push(data)
+            });
+            commit("setProductList", arr)
+            resolve();
+
           });
-          commit("setProductList", arr)
+      })
 
-        });
     },
     //取得firestore會員購物車
     getMemberCart({ commit }, userEmail) {

@@ -5,8 +5,9 @@
         <router-link v-if="currentUser == 'stubstub8257@gmail.com'" :to="{name: 'admin'}">· Admin</router-link>
         <router-link v-if="!isLoggedIn" :to="{name: 'login'}">· LOGIN</router-link>
         <router-link v-if="!isLoggedIn" :to="{name: 'register'}">· REGISTER</router-link>
-        <div v-if="isLoggedIn">· {{currentUser}} · </div>
-        <button v-if="isLoggedIn" @click="logout">Logout</button>
+        <div v-if="isLoggedIn">· {{currentUser}} ·</div>
+        <!-- <button v-if="isLoggedIn" @click="logout">Logout</button> -->
+        <el-button v-if="isLoggedIn" @click="logout" type="text" size="mini" ><div style="font-size:0.7em">Log out</div></el-button>
         <!-- <button @click="testMemberCart">按我</button> -->
       </div>
     </div>
@@ -14,14 +15,23 @@
       <div class="wrap_bottom_box">
         <div class="wrap_bottom_box_first">
           <router-link to="/" class="logo">Roman.</router-link>
-          <!-- <input
-            type="search"
-            v-model="inputValue"
-            style="outline:none;"
-            @keyup.enter="search(inputValue)"
-          />
-          <button @click="resetProducts()">reset</button>
-          <div class="search"></div>-->
+          <!-- <div>
+            <el-tag
+              :key="tag"
+              v-for="tag in dynamicTags"
+              closable
+              :disable-transitions="false"
+              @close="handleClose(tag)"
+            >{{tag}}</el-tag>
+            <el-input
+              size="mini"
+              placeholder="Search"
+              v-model="inputValue"
+              @keyup.enter.native="handleInputConfirm"
+            >
+              <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            </el-input>
+          </div>-->
         </div>
 
         <div class="wrap_bottom_box_second">
@@ -29,27 +39,30 @@
           <router-link :to="{name: 'contact'}">CONTACT</router-link>
 
           <el-popover placement="bottom-end" max-width="200" trigger="hover">
-            <el-table :data="cart">
+            <el-table :data="cart" emptyText="-empty-">
               <el-table-column width="120" property="title" label="title"></el-table-column>
-
               <el-table-column width="50" property="amount"></el-table-column>
               <el-table-column width="70" label="price">
                 <template slot-scope="scope">{{scope.row.price *scope.row.amount}}</template>
               </el-table-column>
             </el-table>
-            <el-button slot="reference" type="text">
+            <el-button style="padding:0 ; width:40px" slot="reference" type="text">
               <router-link :to="{name: 'cart'}">
                 <span v-if="cart.length == 0">
                   <i class="el-icon-shopping-cart-2"></i>
                 </span>
                 <span v-else>
-                  <!-- <span> -->
                   <i class="el-icon-shopping-cart-full"></i>
                 </span>
                 <span v-if="cart.length !== 0">({{cart.length}})</span>
               </router-link>
             </el-button>
             <div class="total">total: {{getTotalPrice}}</div>
+            <i></i>
+            <el-button type="text" @click="clearCart" plain class="el-icon-delete" size="mini">clear</el-button>
+            <el-button type="text" plain class="el-icon-delete" size="mini">
+              <router-link :to="{name:'checkout'}">check out</router-link>
+            </el-button>
           </el-popover>
         </div>
       </div>
@@ -66,7 +79,9 @@ export default {
     return {
       isLoggedIn: false,
       currentUser: false,
-      inputValue: ""
+      inputValue: "",
+      dynamicTags: [],
+      inputVisible: false
     };
   },
   computed: {
@@ -79,7 +94,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setCart"]),
+    ...mapMutations(["setCart", "clearCart"]),
     ...mapActions(["getMemberCart", "getFireProducts", "getUserEmail"]),
     logout() {
       firebase
@@ -91,6 +106,20 @@ export default {
     },
     testMemberCart() {
       console.log(this.cart);
+      console.log("123");
+    },
+
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    handleInputConfirm() {
+      if (this.inputValue) {
+        this.dynamicTags = [];
+        this.dynamicTags.push(this.inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = "";
     }
   },
   created() {
@@ -109,11 +138,8 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.logo {
-  font-size: 5em;
-  font-weight: bold;
-}
 .wrap {
+  max-width: 100%;
   &_top {
     height: 30px;
     background-color: #eee;
@@ -151,9 +177,35 @@ export default {
       align-items: center;
       max-width: 1400px;
       width: 100%;
+      &_first {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        .logo {
+          font-size: 5em;
+          font-weight: bold;
+        }
 
-      &_second > * {
-        margin-left: 20px;
+        // & > :last-child {
+        //   display: flex;
+        //   justify-content: flex-end;
+        //   // align-items: flex-start;
+        //   flex-direction: column;
+        //   margin-left: 20px;
+        //   height: 60px;
+
+        //   position: relative;
+        // }
+      }
+      &_second {
+        display: flex;
+        flex-wrap: wrap;
+
+        & > * {
+          margin-left: 20px;
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <div>Checkout</div>
+    <div class="checkoutTitle">Checkout</div>
     <el-steps :active="active" finish-status="success" class="steps">
       <el-step title="INFORMATION"></el-step>
       <el-step title="SHIPPING"></el-step>
@@ -120,20 +120,20 @@
                     </div>
                     <div style="display:flex ;justify-content: space-between;">
                       <div>SHIPPING:</div>
-                      <div>$ 60</div>
+                      <div>$ {{shipping}}</div>
                     </div>
                     <div style="display:flex ;justify-content: space-between;">
                       <div>TAX:</div>
-                      <div>${{(getTotalPrice+60)/10}}(10%)</div>
+                      <div>$ {{getTax}}(10%)</div>
                     </div>
                     <div style="display:flex ;justify-content: space-between;">
                       <div>GRAND TOTAL:</div>
-                      <div>{{getTotalPrice+(getTotalPrice+60)/10}}</div>
+                      <div>$ {{getTotalwithTax}}</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <el-button type="primary" @click="submitForm('ruleForm')" size="mini">Pay</el-button>
+              <el-button type="primary" @click="submitForm(ruleForm)" size="mini">Pay</el-button>
             </div>
           </el-form>
         </div>
@@ -166,7 +166,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label width="180" size="mini">
+            <el-table-column label width="150" size="mini">
               <template slot-scope="scope">
                 amount:
                 <el-input-number
@@ -188,15 +188,15 @@
           </div>
           <div class="itemList-bottom-item">
             <div>SHIPPING:</div>
-            <div>$ 60</div>
+            <div>$ {{shipping}}</div>
           </div>
           <div class="itemList-bottom-item">
             <div>TAX:</div>
-            <div>$ {{(getTotalPrice+60)/10}}(10%)</div>
+            <div>$ {{getTax}}(10%)</div>
           </div>
           <div class="itemList-bottom-item">
             <div>GRAND TOTAL:</div>
-            <div>{{getTotalPrice+(getTotalPrice+60)/10}}</div>
+            <div>$ {{getTotalwithTax}}</div>
           </div>
         </div>
       </div>
@@ -207,8 +207,9 @@
 
 <script>
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+import store from "../../store";
 export default {
-  name: "Cart",
+  name: "Checkout",
   data() {
     return {
       multipleSelection: [],
@@ -329,8 +330,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cart", "totalPrice"]),
-    ...mapGetters(["getTotalPrice"]),
+    ...mapState(["cart", "totalPrice", "shipping"]),
+    ...mapGetters(["getTotalPrice", "getTax", "getTotalwithTax"]),
+
     pageFour() {
       if (this.active !== 3) {
         return true;
@@ -338,7 +340,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["deleteItem", "getTotalPrice"]),
+    ...mapMutations(["deleteItem", "clearCart", "makeOrder"]),
     next() {
       if (this.active < 2) this.active += 1;
       else if (this.active == 2) {
@@ -365,23 +367,34 @@ export default {
       if (this.active > 0) this.active -= 1;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+      new Promise(resolve => {
+        this.makeOrder(formName);
+        this.clearCart();
+        resolve();
+      }).then(() => {
+        this.$router.push({ path: "/" });
+        alert("Order is finished !");
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (store.state.cart == "") {
+      alert("Cart is empty");
+      return;
+    } else next();
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.checkoutTitle {
+  font-size: 1.5em;
+  font-weight: 500;
+  margin: 10px 0;
+}
 .body {
   width: 100%;
   height: 700px;
@@ -407,12 +420,13 @@ export default {
       max-width: 600px;
       width: 100%;
       max-height: 700px;
+
       align-items: center;
       justify-content: space-between;
       display: flex;
       flex-direction: column;
       box-shadow: 1px 2px 6px #555;
-      margin-right: 10px;
+      margin: 0 10px 20px 10px;
 
       &-title {
         width: 100%;
@@ -490,5 +504,25 @@ export default {
 .brand {
   font-size: 0.8em;
   font-weight: 500;
+}
+@media screen and (max-width: 768px) {
+  .body {
+    // .steps {
+    // }
+    height: 100%;
+    .container {
+      align-items: center;
+      flex-direction: column;
+      .itemList {
+        max-width: 300px;
+        // .itemList-top {
+        //   .image {
+        // height: 60px;
+        // width: 60px;
+        //   }
+        // }
+      }
+    }
+  }
 }
 </style>

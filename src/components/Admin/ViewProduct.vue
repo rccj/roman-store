@@ -11,7 +11,7 @@
       <li>title：{{title}}</li>
       <li>brand：{{brand}}</li>
       <li>type：{{type}}</li>
-      <li>price：{{type}}</li>
+      <li>price：{{price}}</li>
       <li>imageURL：{{imageURL}}</li>
       <li>description：{{description}}</li>
     </ul>

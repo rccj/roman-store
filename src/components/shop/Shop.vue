@@ -6,6 +6,7 @@
         <div class="page_box_text">
           <h1>Autumn Wears</h1>
           <p>Nulla auctor, sem ac blandit feugiat, turpis massa rhoncus orci, sit amet ornare magna est et nisi.</p>
+          <!-- <button @click="testProdcutList">test</button> -->
         </div>
         <div class="page_box_color"></div>
         <div class="page_box_pic">
@@ -17,25 +18,24 @@
     </div>
     <div class="type_bar">
       <div class="_filter">
-        <div class="_btn">Filter</div>
-          <!-- <el-select v-model="value" placeholder="请选择">
-          <el-option
-            key="item.value"
-            label="item.label"
-            value="item.value"
-          ></el-option> -->
-        </el-select>
+        <!-- <div class="_btn">Filter</div> -->
+        <el-cascader
+          placeholder="Filter"
+          clearable
+          v-model="value"
+          :options="getFilterList"
+          :props="{ expandTrigger: 'hover' }"
+          @change="handleChange(value)"
+          size="mini"
+        ></el-cascader>
       </div>
       <!-- 冒泡事件處理 -->
       <div class="_sort" @click.capture="showSort =!showSort">
         <div class="_btn">Sort by</div>
-
-        
-
         <ul class="_list" v-if="showSort">
-          <li @click="setProductsHighToLow">Price (low to high)</li>
-          <li @click="setProductsLowToHigh">Price (high to low)</li>
-          <li @click="axiosProducts">clear all</li>
+          <li @click="setProductsLowToHigh">Price (low to high)</li>
+          <li @click="setProductsHighToLow">Price (high to low)</li>
+          <li @click="getFireProducts"></li>
         </ul>
       </div>
     </div>
@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
-
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 import Products from "./Products";
 
 export default {
@@ -53,27 +52,50 @@ export default {
 
   data() {
     return {
+      value: [],
       showSort: false
     };
   },
   components: {
     Products
   },
-  computed: {},
-  methods: {}
+  computed: {
+    ...mapState(["productList"]),
+    ...mapGetters(["getFilterList"])
+  },
+
+  methods: {
+    ...mapMutations([
+      "setProductsLowToHigh",
+      "setProductsHighToLow",
+      "setFilter"
+    ]),
+    ...mapActions(["getFireProducts"]),
+    testProdcutList() {
+      console.log(this.getFilterList);
+    },
+    handleChange(value) {
+      this.getFireProducts()
+      .then(()=> this.setFilter(value))
+      
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .shop_page {
+  width: 100%;
   height: 570px;
   margin: 60px 0;
   background-color: #dcecf2;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   .page_box {
     width: 100%;
+    // max-width: 1400px;
     height: 500px;
     display: flex;
     align-items: center;
@@ -95,9 +117,10 @@ export default {
     }
     &_color {
       position: absolute;
-      right: 20%;
-      width: 50%;
-      height: 45%;
+      right: 30%;
+      width: 40%;
+      // height: 100%;
+      height: 350px;
       background-color: #c7ddea;
     }
     &_pic {

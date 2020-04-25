@@ -5,7 +5,9 @@
         <div class="_color">
           <div>Brand New!</div>
           <div>Sed hendrerit enim id tempor semper</div>
-          <button class="_btn">Shop now</button>
+          <router-link :to="{name:'shop'}" class="_btn">
+            <button>Shop now</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -14,7 +16,9 @@
         <div class="_color">
           <div>Brand New!</div>
           <div>Sed hendrerit enim id tempor semper</div>
-          <button class="_btn">Shop now</button>
+          <router-link :to="{name:'shop'}" class="_btn">
+            <button >Shop now</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -23,8 +27,7 @@
 
 <script>
 export default {
-  name:"TwoPeople",
-
+  name: "TwoPeople"
 };
 </script>
 
@@ -75,7 +78,6 @@ export default {
           font-size: 1.3em;
           font-weight: 500;
           text-shadow: 1px 1px 1px #fff;
-          
         }
         & > div:nth-child(2) {
           color: #dcecf2;
@@ -87,13 +89,31 @@ export default {
           bottom: -40%;
           width: 50%;
           height: 60%;
-          font-size: 1em;
           box-shadow: 1px 1px 2px #555;
-          color: #fff;
           background-color: #343a40;
           border-color: #343a3c;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & > * {
+            font-size: 1em;
+            color: #fff;
+            border: 0;
+            background-color: #343a40;
+          }
         }
       }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    height: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    &_box {
+      width: 100%;
+      height: 40%;
     }
   }
 }

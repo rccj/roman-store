@@ -17,7 +17,7 @@
           <label>stock</label>
         </div>
         <div class="item">
-          <input type="text" v-model="amonut" required />
+          <input type="text" v-model="amount" required />
           <label>amonut</label>
         </div>
         <div class="item">

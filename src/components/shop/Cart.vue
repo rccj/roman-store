@@ -1,7 +1,13 @@
 <template>
   <div class="body">
     <div class="container">
-      <el-table :data="cart" tooltip-effect="dark" style="width: 100%" max-height="600">
+      <el-table
+        :data="cart"
+        tooltip-effect="dark"
+        style="width: 100%"
+        max-height="600"
+        emptyText="-empty-"
+      >
         <el-table-column label width="150">
           <template slot-scope="scope">
             <router-link :to="{name:'product-detail' ,params:{product_id:scope.row.id}}">
@@ -29,7 +35,9 @@
         </el-table-column>
 
         <el-table-column label="price" width="80">
-          <template slot-scope="scope"><div>$ {{ scope.row.price * scope.row.amount}}</div></template>
+          <template slot-scope="scope">
+            <div>$ {{ scope.row.price * scope.row.amount}}</div>
+          </template>
         </el-table-column>
 
         <el-table-column label width="100">
@@ -38,7 +46,6 @@
           </template>
         </el-table-column>
       </el-table>
-
       Total : $ {{getTotalPrice}}
       <router-link :to="{name: 'checkout'}">
         <el-button plain>Check out</el-button>
@@ -47,8 +54,8 @@
   </div>
 </template>
 <script>
-
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+import store from "../../store";
 export default {
   name: "Cart",
   data() {
@@ -58,18 +65,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cart", "totalPrice"]),
-    ...mapGetters(['getTotalPrice']),
+    ...mapState(["cart", "shipping"]),
+    ...mapGetters(["getTotalPrice", "getTax", "getTotalwithTax"])
   },
   methods: {
     ...mapMutations(["deleteItem", "getTotalPrice"])
-  }
+  },
 
-  //  watch:{
-  //    iuput:{
-  //      this.getTotalPrice()
-  //    }
-  //  }
+  beforeRouteEnter(to, from, next) {
+    if (store.state.cart == '') {
+      alert('Cart is empty')
+      return
+    }else next()
+  }
 };
 </script>
 <style lang="scss" scoped>

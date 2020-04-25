@@ -6,12 +6,12 @@
       || data.email.toLowerCase().includes(search.toLowerCase()))"
         style="width: 100%"
       >
-        <el-table-column label="#id" prop="id"></el-table-column>
-        <el-table-column label="auth" prop="auth"></el-table-column>
-        <el-table-column label="userName" prop="userName"></el-table-column>
+        <el-table-column label="#id" prop="id" width="50px"></el-table-column>
+        <el-table-column label="auth" prop="auth" width="90px"></el-table-column>
+        <el-table-column label="userName" prop="userName" width="100px" ></el-table-column>
         <el-table-column label="email" prop="email"></el-table-column>
 
-        <el-table-column align="center">
+        <el-table-column align="center" width="120px">
           <template slot="header" slot-scope="scope">
             <el-input v-model="search" size="mini" placeholder="Search" />
           </template>

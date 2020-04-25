@@ -9,7 +9,6 @@
     <Flower class="flower"></Flower>
     <ImageSlider/>
     <TwoPeople/>
-    <ImageSlider/>
     <Background/>
     <LastBanner/>
   </div>
