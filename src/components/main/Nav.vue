@@ -7,8 +7,10 @@
         <router-link v-if="!isLoggedIn" :to="{name: 'register'}">· REGISTER</router-link>
         <div v-if="isLoggedIn">· {{currentUser}} ·</div>
         <!-- <button v-if="isLoggedIn" @click="logout">Logout</button> -->
-        <el-button v-if="isLoggedIn" @click="logout" type="text" size="mini" ><div style="font-size:0.7em">Log out</div></el-button>
-        <!-- <button @click="testMemberCart">按我</button> -->
+        <el-button v-if="isLoggedIn" @click="logout" type="text" size="mini">
+          <div style="font-size:0.7em">Log out</div>
+        </el-button>
+        <button @click="testMemberCart">按我</button>
       </div>
     </div>
     <div class="wrap_bottom">
@@ -105,8 +107,24 @@ export default {
         });
     },
     testMemberCart() {
-      console.log(this.cart);
-      console.log("123");
+      admin
+        .auth()
+        .createUser({
+          email: "user@example.com",
+          emailVerified: false,
+          phoneNumber: "+11234567890",
+          password: "secretPassword",
+          displayName: "John Doe",
+          photoURL: "http://www.example.com/12345678/photo.png",
+          disabled: false
+        })
+        .then(function(userRecord) {
+          // See the UserRecord reference doc for the contents of userRecord.
+          console.log("Successfully created new user:", userRecord.uid);
+        })
+        .catch(function(error) {
+          console.log("Error creating new user:", error);
+        });
     },
 
     handleClose(tag) {
@@ -127,10 +145,11 @@ export default {
       this.isLoggedIn = true;
       this.currentUser = firebase.auth().currentUser.email;
     }
+    this.setCart();
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
-    this.setCart();
+    console.log(firebase.auth().currentUser)
   },
   mounted() {
     // console.log(this.cart);

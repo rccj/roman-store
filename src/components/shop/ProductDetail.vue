@@ -30,6 +30,7 @@
           <el-button type="primary" plain @click="addCartPro(product)">
             <i class="el-icon-shopping-cart-2"></i>Add to cart
           </el-button>
+
         </div>
       </div>
     </div>
@@ -144,7 +145,8 @@ export default {
         });
     },
     handleChange(value) {
-      console.log(value);
+      // console.log(this.product);
+      // console.log(value);
     }
   }
 };

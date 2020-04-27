@@ -17,7 +17,7 @@ const store = new Vuex.Store({
     userEmail: '',
     order: [],
     shipping: 60,
-    tatalWithTax:'',
+    totalWithTax: '',
   },
   mutations: {
 
@@ -65,32 +65,49 @@ const store = new Vuex.Store({
 
         //讀取雲端會員的購物車
       } else (
-        state.cart = JSON.parse(localStorage.getItem('cartData')) || []
+        state.cart = JSON.parse(localStorage.getItem('cartData'))
       )
 
     },
 
     //添加項目至購物車
     addCart(state, data) {
+      console.log(state.cart)
 
-      let findData = state.cart.find(item => {
-        return item.id == data.id
+      console.log('---data.amount---')
+      console.log(data.amount)
+      console.log('----------------')
+      let findData = state.cart.some(item => {
+        return item.title == data.title
       })
-      // if (findData !== undefined) {
-      //   console.log('有買過')
-      // } else {
-      //   console.log('沒買過')
-      // }
-      if (findData !== undefined) {
-        state.cart.forEach(item => {
-          if (item.id == data.id) {
+
+
+      if (findData) {
+
+        state.cart.forEach((item, index) => {
+          if (item.title == data.title) {
+            console.log('------有買過------')
+            console.log(state.cart)
+            console.log('---data.amount---')
+            console.log(data.amount)
+            console.log('---data.amount---')
+            console.log(item.amount)
             item.amount = Number(item.amount) + Number(data.amount)
           }
         })
+
       }
       else {
+        console.log('---沒買過---')
+        console.log(state.cart)
+        console.log('---data.amount---')
+        console.log(data.amount)
         state.cart.push(data)
       }
+
+
+
+
       if (firebase.auth().currentUser) {
         db.collection("members")
           .where("email", "==", state.userEmail)
@@ -112,6 +129,7 @@ const store = new Vuex.Store({
         // state.cart.push(data)
         localStorage.setItem('cartData', JSON.stringify(state.cart));
       }
+
     },
 
     //刪除購物車
@@ -156,7 +174,7 @@ const store = new Vuex.Store({
                   cart: state.cart
                 })
                 .then(() => {
-                  console.log('增加項目至購物車')
+                  console.log('清空購物車')
                 });
             });
           });
@@ -174,8 +192,8 @@ const store = new Vuex.Store({
       // if (firebase.auth().currentUser) {
       db.collection("orders")
         .add({
-          'total(with 10% tax)':`$ ${state.tatalWithTax}`,
-          customer:state.userEmail,
+          'total(with 10% tax)': `$${state.totalWithTax}`,
+          customer: state.userEmail,
           cart: state.cart,
           information: i
         })
@@ -198,8 +216,8 @@ const store = new Vuex.Store({
       let tax = (getters.getTotalPrice + state.shipping) / 10
       return tax
     },
-    getTotalwithTax(state,getters){
-      state.tatalWithTax = getters.getTotalPrice + getters.getTax
+    getTotalwithTax(state, getters) {
+      state.totalWithTax = getters.getTotalPrice + getters.getTax
       return getters.getTotalPrice + getters.getTax
     },
     getFilterList(state) {

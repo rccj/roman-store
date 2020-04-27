@@ -19,12 +19,15 @@
               class="el-icon-shopping-cart-2"
               type="icon"
             ></el-button>
-            <el-button plain type="icon" size="mini" class="el-icon-view"></el-button>
+            <router-link :to="{name:'product-detail',params:{product_id: item.id}}">
+              <el-button plain type="icon" size="mini" class="el-icon-view"></el-button>
+            </router-link>
           </div>
         </li>
       </ul>
     </div>
-    <!-- <button @click="testMemberCart">test</button> -->
+    <button @click="testMemberCart">test</button>
+
   </div>
 </template>
 
@@ -36,7 +39,6 @@ export default {
     return {
       // test:[1,2,3,4]
     };
-    
   },
 
   computed: {
@@ -57,7 +59,7 @@ export default {
     testMemberCart() {
       console.log(this.productList);
     }
-  }
+  },
 };
 </script>
 
@@ -65,7 +67,6 @@ export default {
 .container {
   width: 100%;
 
-  
   .product {
     // max-width: 1400px;
     width: 100%;

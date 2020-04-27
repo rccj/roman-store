@@ -30,7 +30,7 @@ export default {};
   text-align: center;
   display: flex;
   justify-content: center;
-  max-width: 900px;
+  align-items: center;
   width:100%;
 }
 .admin {

@@ -19,7 +19,7 @@
           <el-input type="text" v-model="passWord" required></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="submit">Register</el-button>
+          <el-button type="submit" @click="registerData">Register</el-button>
           <router-link :to="{name: 'members'}">
             <el-button>Cencel</el-button>
           </router-link>
@@ -80,7 +80,6 @@ export default {
         .then(
           user => {
             alert(`Account created for ${user.user.email}`);
-            this.saveMember();
             // this.$router.push("/login");
             // this.$router.go({ path: this.$router.path });
           },
@@ -88,6 +87,7 @@ export default {
             alert(err.message);
           }
         );
+      this.saveMember();
     },
 
     saveMember() {
