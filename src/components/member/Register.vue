@@ -162,7 +162,7 @@ export default {
       else if (this.passVerify === false) return alert("請確認資料");
       else if (this.confirmVerify === false) return alert("請確認資料");
       else {
-        console.log("註冊中");
+        // console.log("註冊中");
         this.registerData();
         this.saveMember();
         //原
@@ -170,7 +170,7 @@ export default {
         this.member.email = "";
         this.member.passWord = "";
         this.member.confirmPassword = "";
-        console.log("註冊成功");
+        // console.log("註冊成功");
       }
     },
     //fire

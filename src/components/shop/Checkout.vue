@@ -26,7 +26,7 @@
             label-position="top"
             :inline="true"
           >
-            <div class="information" v-if="active == 0">
+            <div class="information" v-show="active == 0">
               <el-form-item label="First Name" prop="firstName" size="mini">
                 <el-input v-model="ruleForm.firstName"></el-input>
               </el-form-item>
@@ -40,7 +40,7 @@
                 <el-input v-model="ruleForm.phone"></el-input>
               </el-form-item>
             </div>
-            <div class="shipping" v-if="active == 1">
+            <div class="shipping" v-show="active == 1">
               <el-form-item label="Country" prop="country" size="mini">
                 <el-input v-model="ruleForm.country"></el-input>
               </el-form-item>
@@ -62,7 +62,7 @@
                 ></el-input>
               </el-form-item>
             </div>
-            <div class="payment" v-if="active == 2">
+            <div class="payment" v-show="active == 2">
               <el-form-item label="Name on card" prop="nameOnCard" size="mini">
                 <el-input v-model="ruleForm.nameOnCard"></el-input>
               </el-form-item>
@@ -77,7 +77,7 @@
               </el-form-item>
             </div>
 
-            <div class="orderList" v-if="active == 3">
+            <div class="orderList" v-show="active == 3">
               <div class="orderList-item">
                 <div class="orderList-item-detail">
                   <div>Name:</div>
@@ -103,14 +103,11 @@
                   <div>Message:</div>
                   <div>{{this.ruleForm.message}}</div>
                 </div>
-                <div class="orderList-item-detail">
+                <div class="orderList-item-detail" >
                   <div>Your order:</div>
                   <div>
                     <ul v-for="item in cart">
-                      <li>
-                        <div>{{item.title}} / {{item.brand}}</div>
-                        <div>x{{item.amount}} $ {{item.price*item.amount}}</div>
-                      </li>
+                        <li style="font-size:.8em">{{item.title}} / {{item.brand}} x{{item.amount}} ${{item.price*item.amount}}</li>
                     </ul>
                   </div>
                   <div>
@@ -330,7 +327,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cart", "totalPrice", "shipping"]),
+    ...mapState(["cart", "totalPrice", "shipping", "userEmail"]),
     ...mapGetters(["getTotalPrice", "getTax", "getTotalwithTax"]),
 
     pageFour() {
@@ -342,22 +339,38 @@ export default {
   methods: {
     ...mapMutations(["deleteItem", "clearCart", "makeOrder"]),
     next() {
-      if (this.active < 2) this.active += 1;
-      else if (this.active == 2) {
+      // if (this.active < 2) this.active += 1;
+      if (this.active == 0) {
         if (
           this.ruleForm.firstName == "" ||
           this.ruleForm.lastName == "" ||
           this.ruleForm.email == "" ||
-          this.ruleForm.phone == "" ||
+          this.ruleForm.phone == ""
+        ) {
+          alert("Check the form,please.");
+          return;
+        } else this.active += 1;
+      } else if (this.active == 1) {
+        if (
           this.ruleForm.country == "" ||
-          this.ruleForm.address == "" ||
+          this.ruleForm.city == "" ||
           this.ruleForm.postcode == "" ||
+          this.ruleForm.address == ""
+        ) {
+          alert("Check the form,please.");
+          return;
+        } else {
+          this.active += 1;
+        }
+      } else if (this.active == 2) {
+        if (
           this.ruleForm.nameOnCard == "" ||
           this.ruleForm.cardNumber == "" ||
           this.ruleForm.expiredDate == "" ||
           this.ruleForm.cvc == ""
         ) {
-          alert("Fill the form,please.");
+          alert("Check the form,please.");
+          return;
         } else {
           this.active += 1;
         }
@@ -385,6 +398,9 @@ export default {
       alert("Cart is empty");
       return;
     } else next();
+  },
+  created() {
+    this.ruleForm.email = this.userEmail;
   }
 };
 </script>

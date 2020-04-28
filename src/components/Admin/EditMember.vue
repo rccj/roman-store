@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <br />
-    <div>
-      <form @submit.prevent="updateMember">
-        <div>
-            <input disabled type="text" v-model="id" required />
-        </div>
-        <div>
-            <input type="text" v-model="auth" required />
-        </div>
-        <div>
-            <input type="text" v-model="email" required />
-        </div>
-        <div>
-            <input type="text" v-model="userName" required />
-        </div>
-        <button type="submit" class="btn">Submit</button>
-        <router-link :to="{name:'view-member',params:{member_id:this.id}}">Cancel</router-link>
-      </form>
-    </div>
+  <div class="container">
+    <form class="list" @submit.prevent="updateMember">
+      <div>
+        <div class="title">Update Member</div>
+        <input disabled type="text" v-model="id" required />
+      </div>
+      <div>
+        <input type="text" v-model="auth" required />
+      </div>
+      <div>
+        <input type="text" v-model="email" required />
+      </div>
+      <div>
+        <input type="text" v-model="userName" required />
+      </div>
+      <button type="submit" class="btn">Submit</button>
+      <router-link :to="{name:'view-member',params:{member_id:this.id}}">Cancel</router-link>
+    </form>
   </div>
 </template>
 <script>
@@ -99,3 +97,24 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .title{
+    font-size:1.5em;
+    text-align: center;
+  }
+  .list {
+    width: 200px;
+    & > * {
+      margin: 5px 0;
+    }
+    & input {
+      width: 100%;
+      height: 30px;
+    }
+  }
+}
+</style>

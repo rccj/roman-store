@@ -10,7 +10,7 @@
         <el-button v-if="isLoggedIn" @click="logout" type="text" size="mini">
           <div style="font-size:0.7em">Log out</div>
         </el-button>
-        <button @click="testMemberCart">按我</button>
+        <!-- <button @click="testMemberCart">按我</button> -->
       </div>
     </div>
     <div class="wrap_bottom">
@@ -62,7 +62,7 @@
             <div class="total">total: {{getTotalPrice}}</div>
             <i></i>
             <el-button type="text" @click="clearCart" plain class="el-icon-delete" size="mini">clear</el-button>
-            <el-button type="text" plain class="el-icon-delete" size="mini">
+            <el-button type="text" plain class="el-icon-shopping-bag-2" size="mini">
               <router-link :to="{name:'checkout'}">check out</router-link>
             </el-button>
           </el-popover>
@@ -149,7 +149,6 @@ export default {
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
-    console.log(firebase.auth().currentUser)
   },
   mounted() {
     // console.log(this.cart);
@@ -158,7 +157,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .wrap {
-  max-width: 100%;
+  max-width: 1680px;
   &_top {
     height: 30px;
     background-color: #eee;

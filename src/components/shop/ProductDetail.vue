@@ -3,7 +3,7 @@
     <div class="container">
       <div class="intro">
         <div class="picCon">
-          <div class="pic" :style="{backgroundImage:`url('${product.imageURL}')`}">圖片</div>
+          <div class="pic" :style="{backgroundImage:`url('${product.imageURL}')`}"></div>
         </div>
         <div class="text">
           <div class="title">{{product.title}}</div>
@@ -166,7 +166,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    // border: 1px solid black;
 
     .intro {
       width: 100%;

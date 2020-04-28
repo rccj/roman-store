@@ -72,37 +72,25 @@ const store = new Vuex.Store({
 
     //添加項目至購物車
     addCart(state, data) {
-      console.log(state.cart)
 
-      console.log('---data.amount---')
-      console.log(data.amount)
-      console.log('----------------')
       let findData = state.cart.some(item => {
         return item.title == data.title
       })
 
-
       if (findData) {
-
         state.cart.forEach((item, index) => {
           if (item.title == data.title) {
-            console.log('------有買過------')
-            console.log(state.cart)
-            console.log('---data.amount---')
-            console.log(data.amount)
-            console.log('---data.amount---')
-            console.log(item.amount)
+     
+   
             item.amount = Number(item.amount) + Number(data.amount)
+
           }
         })
-
       }
       else {
-        console.log('---沒買過---')
-        console.log(state.cart)
-        console.log('---data.amount---')
-        console.log(data.amount)
-        state.cart.push(data)
+        let deepCopy = JSON.parse(JSON.stringify(data));
+
+        state.cart.push(deepCopy)
       }
 
 
@@ -119,7 +107,7 @@ const store = new Vuex.Store({
                   cart: state.cart
                 })
                 .then(() => {
-                  console.log('增加項目至購物車')
+                  // console.log('增加項目至購物車')
                 });
             });
           });
@@ -148,7 +136,7 @@ const store = new Vuex.Store({
                     cart: state.cart
                   })
                   .then(() => {
-                    console.log('增加項目至購物車')
+                    // console.log('增加項目至購物車')
                   });
               });
             });
@@ -174,7 +162,7 @@ const store = new Vuex.Store({
                   cart: state.cart
                 })
                 .then(() => {
-                  console.log('清空購物車')
+                  // console.log('清空購物車')
                 });
             });
           });
@@ -198,7 +186,7 @@ const store = new Vuex.Store({
           information: i
         })
         .then(() => {
-          console.log('新增訂單')
+          // console.log('新增訂單')
         });
       // }
     }

@@ -1,18 +1,18 @@
 <template>
   <div class="flowers">
     <div class="flowers_wrap">
-      <div class="a">a</div>
-      <div class="b">b</div>
-      <div class="c">c</div>
-      <div class="d">d</div>
-      <div class="e">e</div>
+      <div class="a"></div>
+      <div class="b"></div>
+      <div class="c"></div>
+      <div class="d"></div>
+      <div class="e"></div>
       <div class="f text_card">
-        f
+        
         <h1>Summer Sale</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium fringilla dapibus.</p>
       </div>
       <div class="g text_card">
-        g
+        
         <h1>SPECIAL SALE</h1>
         <p>Aenean malesuada hendrerit hendrerit. Curabitur pulvinar felis sed justo dignissim luctus.</p>
       </div>
@@ -22,8 +22,7 @@
 
 <script>
 export default {
-  name:"flowers",
-
+  name: "flowers"
 };
 </script>
 <style lang="scss" scoped>
@@ -45,9 +44,12 @@ export default {
       gap: 10px;
       template-columns: repeat(6, 1fr);
       template-rows: repeat(5, 1fr);
-      template-areas: "a a a b b b" "c c f f d d" "c c f f d d" "c c e e g g"
-        "c c e e g g";
-    }
+      template-areas: "a a a b b b" 
+                      "c c f f d d" 
+                      "c c f f d d" 
+                      "c c e e g g"
+                      "c c e e g g";
+      }
     .a {
       grid-area: a;
       height: 50px;
@@ -108,6 +110,22 @@ export default {
       text-align: center;
       > h1 {
         font-size: 1.6em;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .flowers{
+    &_wrap{
+      grid: {
+      gap: 10px;
+      template-columns: repeat(6, 1fr);
+      template-rows: repeat(5, 1fr);
+      template-areas: "a a a a a a" 
+                      "c c f f f f" 
+                      "c c f f f f" 
+                      "c c g g g g"
+                      "c c g g g g";
       }
     }
   }

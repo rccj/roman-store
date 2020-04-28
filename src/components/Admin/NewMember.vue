@@ -4,10 +4,14 @@
       <el-header>NEW MEMBER</el-header>
       <el-form label-position="left" label-width="80px" @submit.prevent="registerData">
         <el-form-item label="ID#">
-          <el-input type="text" v-model="member_id" required></el-input>
+          <el-input type="text" v-model="member_id" required disabled></el-input>
         </el-form-item>
         <el-form-item label="auth">
-          <el-input type="text" v-model="auth" required></el-input>
+          <el-select v-model="auth" placeholder="" required>
+            <el-option label="admin" value="admin"></el-option>
+            <el-option label="customer" value="customer"></el-option>
+            <el-option label="vip" value="customer"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="userName">
           <el-input type="text" v-model="userName" required></el-input>
@@ -27,7 +31,7 @@
       </el-form>
     </el-container>
 
-    <div class="container">
+    <!-- <div class="container">
       <h1>新增會員</h1>
       <form @submit.prevent="registerData">
         <div>
@@ -52,7 +56,7 @@
         </div>
         <button type="submit">新增</button>
       </form>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -71,6 +75,9 @@ export default {
       userName: null,
       passWord: null
     };
+  },
+  computed: {
+    ...mapState(["memberList"])
   },
   methods: {
     registerData() {
@@ -105,6 +112,19 @@ export default {
           this.$router.push("/admin/members").catch(error => console.log(err))
         );
     }
+  },
+  created() {
+    let idLast = this.memberList[this.memberList.length - 1].id;
+    let idNow = Number(idLast) + 1;
+    idNow = String(idNow);
+    console.log(typeof idNow);
+    if (idNow.length == 1) {
+      idNow = "00" + idNow;
+    }
+    if (idNow.length == 2) {
+      idNow = "0" + idNow;
+    }
+    this.member_id = idNow;
   }
 };
 </script>

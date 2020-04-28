@@ -32,7 +32,7 @@ export default {
     LastBanner,
   },
   created() {
-  console.log(firebase.auth().currentUser.email)
+  // console.log(firebase.auth().currentUser.email)
     
   },
 

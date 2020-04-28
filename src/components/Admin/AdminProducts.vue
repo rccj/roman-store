@@ -46,7 +46,7 @@ export default {
   },
   created() {
     this.getFireProducts();
-    console.log(this.productList);
+    // console.log(this.productList);
   }
 };
 </script>

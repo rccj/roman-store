@@ -12,9 +12,15 @@
           <li class="mm">
             <div class="content_title">Customer Care</div>
             <div class="content_sub">
-              <div>CONTACT US</div>
-              <div>FAQS</div>
-              <div>TERM OF USE</div>
+              <div>
+                <router-link :to="{name:'services'}">CONTACT US</router-link>
+              </div>
+              <div>
+                <router-link :to="{name:'location'}">LOCATIONS</router-link>
+              </div>
+              <div>
+                <router-link :to="{name:'terms'}">TERM OF USE</router-link>
+              </div>
             </div>
           </li>
           <li class="mm">

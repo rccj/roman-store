@@ -1,44 +1,43 @@
 <template>
-  <div>
-    <br />
-    <div>
-      <form @submit.prevent="updateProduct">
+  <div class="container">
+    <form class="list" @submit.prevent="updateProduct">
+      <div class="title">Update Product</div>
+
+      <div>
+        <input disabled type="text" v-model="id" required />
+      </div>
+      <div>
+        <input type="date" v-model="date" required />
+      </div>
+      <div>
+        <input type="text" v-model="stock" required />
+      </div>
+      <div>
+        <input type="text" v-model="amount" required />
+      </div>
+      <div>
+        <input type="text" v-model="title" required />
+      </div>
+      <div>
+        <input type="text" v-model="brand" required />
+      </div>
+      <div>
+        <input type="text" v-model="type" required />
+      </div>
+      <div>
+        <input type="text" v-model="price" required />
+      </div>
+      <div>
         <div>
-          <input disabled type="text" v-model="id" required />
+          <input type="text" v-model="imageURL" required />
         </div>
-        <div>
-          <input type="date" v-model="date" required />
-        </div>
-        <div>
-          <input type="text" v-model="stock" required />
-        </div>
-        <div>
-          <input type="text" v-model="amount" required /> 
-        </div>
-        <div>
-          <input type="text" v-model="title" required />
-        </div>
-        <div>
-          <input type="text" v-model="brand" required />
-        </div>
-        <div>
-          <input type="text" v-model="type" required />
-        </div>
-        <div>
-          <input type="text" v-model="price" required />
-        </div>
-        <div>
-          <div>
-            <input type="text" v-model="imageURL" required />
-          </div>
-        </div>
-        <div>
-          <input type="text" v-model="description" required />
-        </div>
-        <button type="submit" class="btn">Submit</button>
-        <router-link :to="{name:'view-product',params:{product_id:this.id}}">Cancel</router-link>
-      </form>
-    </div>
+      </div>
+      <div>
+        <input type="text" v-model="description" required />
+      </div>
+      <button type="submit" class="btn">Submit</button>
+      <router-link :to="{name:'view-product',params:{product_id:this.id}}">Cancel</router-link>
+    </form>
   </div>
 </template>
 <script>
@@ -139,3 +138,25 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .title{
+    font-size:1.5em;
+    text-align: center;
+  }
+  .list {
+    width: 200px;
+    & > * {
+      margin: 5px 0;
+    }
+    & input {
+      width: 100%;
+      height: 30px;
+    }
+  }
+}
+</style>

@@ -47,9 +47,9 @@ export default {
   },
   methods: {
     ...mapActions(["getFireMember"]),
-    handleEdit(index, row) {
-      console.log(index, row);
-    }
+    // handleEdit(index, row) {
+    //   console.log(index, row);
+    // }
   },
   mounted() {
     this.getFireMember();

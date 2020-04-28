@@ -26,7 +26,7 @@
         </li>
       </ul>
     </div>
-    <button @click="testMemberCart">test</button>
+    <!-- <button @click="testMemberCart">test</button> -->
 
   </div>
 </template>
