@@ -43,9 +43,9 @@ export default {
           user => {
             alert(`You are logged in as ${user.user.email}`);
             this.$router.go({ path: this.$router.path });
-
           },
           err => {
+            alert('Wrong email or password');
             alert(err.message);
           }
         );

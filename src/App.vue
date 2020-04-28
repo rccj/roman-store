@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <div class="body">
-      <el-backtop></el-backtop>
+      <el-backtop />
       <Nav class="nav"></Nav>
-      <div class="block"></div>
+      <div class="block" />
       <router-view />
-      <Footer class="footer"></Footer>
+      <Footer class="footer" />
     </div>
   </div>
 </template>
 
 <script>
-import Nav from "@/components/main/nav";
+import Nav from "@/components/main/Nav";
 import Home from "@/components/main/Home";
-import Footer from "@/components/main/footer";
+import Footer from "@/components/main/Footer";
 
 export default {
   name: "App",
@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 * {
   /* -webkit-user-select: none;
   -moz-user-select: none;
@@ -61,21 +61,21 @@ export default {
   align-items: center;
   /* left: 50%; 
   transform: translate(0%, 0); */
-}
-.body {
-  max-width: 1680px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow: hidden;
-  
-}
-.block {
-  height: 110px;
-}
-.nav {
-  position: fixed;
-  z-index: 20;
-  width: 100%;
+  .body {
+    max-width: 1680px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    .nav {
+      position: fixed;
+      z-index: 20;
+      width: 100%;
+      max-width: 1680px;
+    }
+    .block {
+      height: 110px;
+    }
+  }
 }
 </style>

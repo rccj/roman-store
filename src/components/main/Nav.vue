@@ -6,7 +6,6 @@
         <router-link v-if="!isLoggedIn" :to="{name: 'login'}">· LOGIN</router-link>
         <router-link v-if="!isLoggedIn" :to="{name: 'register'}">· REGISTER</router-link>
         <div v-if="isLoggedIn">· {{currentUser}} ·</div>
-        <!-- <button v-if="isLoggedIn" @click="logout">Logout</button> -->
         <el-button v-if="isLoggedIn" @click="logout" type="text" size="mini">
           <div style="font-size:0.7em">Log out</div>
         </el-button>
@@ -45,7 +44,7 @@
               <el-table-column width="120" property="title" label="title"></el-table-column>
               <el-table-column width="50" property="amount"></el-table-column>
               <el-table-column width="70" label="price">
-                <template slot-scope="scope">{{scope.row.price *scope.row.amount}}</template>
+                <template slot-scope="scope">{{scope.row.price * scope.row.amount}}</template>
               </el-table-column>
             </el-table>
             <el-button style="padding:0 ; width:40px" slot="reference" type="text">
@@ -60,7 +59,6 @@
               </router-link>
             </el-button>
             <div class="total">total: {{getTotalPrice}}</div>
-            <i></i>
             <el-button type="text" @click="clearCart" plain class="el-icon-delete" size="mini">clear</el-button>
             <el-button type="text" plain class="el-icon-shopping-bag-2" size="mini">
               <router-link :to="{name:'checkout'}">check out</router-link>
@@ -129,13 +127,11 @@ export default {
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
-  },
+  }
 };
 </script>
 <style scoped lang="scss">
 .wrap {
-  max-width: 1680px;
-  width: 100%;
   &_top {
     height: 30px;
     background-color: #eee;
