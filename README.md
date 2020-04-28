@@ -1,5 +1,5 @@
 # Vue 電商網站
-[Demo](https://rccj.github.io/do-more)
+[Demo](https://rccj.github.io/roman-store)
 
 ## 使用技術
 - Vue.js
@@ -12,7 +12,7 @@
 - HTML
 
 ## 核心
-運用Firebase完成API串接以及後台管理，呈現購物車、商品列表等功能
+運用Firebase完成API串接各式資料以及後台管理，呈現購物車、商品列表等功能
 
 ## 購物車
 - 未登入的用戶，購物車資料會存在本地
