@@ -394,9 +394,9 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    if (store.state.cart == "") {
-      alert("Cart is empty");
-      return;
+    if (store.state.cart.length == 0) {
+      alert('Cart is empty')
+      next({path: '/shop',})
     } else next();
   },
   created() {

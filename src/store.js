@@ -13,7 +13,8 @@ const store = new Vuex.Store({
   state: {
     memberList: [],
     productList: [],
-    cart: [],
+    //讓購物車為空？
+    cart: [1],
     userEmail: '',
     order: [],
     shipping: 60,
@@ -65,7 +66,7 @@ const store = new Vuex.Store({
 
         //讀取雲端會員的購物車
       } else (
-        state.cart = JSON.parse(localStorage.getItem('cartData'))
+        state.cart = JSON.parse(localStorage.getItem('cartData')) || []
       )
 
     },
@@ -253,10 +254,10 @@ const store = new Vuex.Store({
   actions: {
     //取得當前會員信箱
     getUserEmail({ commit }) {
-      if (firebase.auth().currentUser.email) {
+      if (firebase.auth().currentUser) {
         commit('getMail', firebase.auth().currentUser.email)
-      } else{
-        commit('getMail', ' ')
+      } else {
+        return
       }
 
     },
@@ -328,6 +329,9 @@ const store = new Vuex.Store({
             // console.log(doc.data().cart)
             commit('setCart', doc.data().cart)
           });
+          err => {
+            alert("獲取資料失敗");
+          };
         });
     },
 

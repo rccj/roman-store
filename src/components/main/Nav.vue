@@ -60,7 +60,7 @@
             </el-button>
             <div class="total">total: {{getTotalPrice}}</div>
             <el-button type="text" @click="clearCart" plain class="el-icon-delete" size="mini">clear</el-button>
-            <el-button type="text" plain class="el-icon-shopping-bag-2" size="mini">
+            <el-button v-if="cart.length !== 0" type="text" plain class="el-icon-shopping-bag-2" size="mini">
               <router-link :to="{name:'checkout'}">check out</router-link>
             </el-button>
           </el-popover>
@@ -127,6 +127,9 @@ export default {
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
+  },
+  mounted(){
+    
   }
 };
 </script>

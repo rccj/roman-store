@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">Recommend for you</div>
     <el-carousel :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="item in itemList">
+      <el-carousel-item v-for="item in itemList" >
         <router-link :to="{name:'product-detail',params:{product_id:item.id}}">
           <div class="cover" :style="{backgroundImage:`url('${item.imageURL}')`}">
             <div>{{item.title}}</div>

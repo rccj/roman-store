@@ -77,6 +77,9 @@ export default {
             this.userName = doc.data().userName;
             this.cart = doc.data().cart;
           });
+          err => {
+            alert("獲取資料失敗");
+          };
         });
     },
     deleteMember() {
@@ -87,10 +90,12 @@ export default {
           .get()
           .then(querySnapshot => {
             querySnapshot.forEach(doc => {
-             
               doc.ref.delete();
               this.$router.push("/admin/members");
             });
+            err => {
+              alert("刪除失敗");
+            };
           });
       }
     }

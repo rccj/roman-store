@@ -69,13 +69,13 @@ export default {
     ...mapGetters(["getTotalPrice", "getTax", "getTotalwithTax"])
   },
   methods: {
-    ...mapMutations(["deleteItem", "getTotalPrice"])
+    ...mapMutations(["deleteItem"])
   },
 
   beforeRouteEnter(to, from, next) {
-    if (store.state.cart == '') {
+    if (store.state.cart.length == 0) {
       alert('Cart is empty')
-      return
+      next({path: '/shop',})
     }else next()
   }
 };
