@@ -3,12 +3,12 @@
 
 ## 使用技術
 - Vue.js
- - Vue CLI
- - Vuex
+  - Vue CLI
+  - Vuex
 - Firebase
 - SCSS
- - Element UI
- - Font Awesome
+  - Element UI
+  - Font Awesome
 - HTML
 
 ## 核心
