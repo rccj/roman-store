@@ -80,8 +80,8 @@ const store = new Vuex.Store({
       if (findData) {
         state.cart.forEach((item, index) => {
           if (item.title == data.title) {
-     
-   
+
+
             item.amount = Number(item.amount) + Number(data.amount)
 
           }
@@ -173,7 +173,7 @@ const store = new Vuex.Store({
     },
     //獲取使用者信箱
     getMail(state, data) {
-      state.userEmail = data
+      state.userEmail = data;
     },
     //提交訂單
     makeOrder(state, i) {
@@ -253,7 +253,12 @@ const store = new Vuex.Store({
   actions: {
     //取得當前會員信箱
     getUserEmail({ commit }) {
-      commit('getMail', firebase.auth().currentUser.email)
+      if (firebase.auth().currentUser.email) {
+        commit('getMail', firebase.auth().currentUser.email)
+      } else{
+        commit('getMail', ' ')
+      }
+
     },
     //取得firestore會員資料
     getFireMember({ commit }) {

@@ -106,26 +106,6 @@ export default {
           this.$router.go({ path: this.$router.path });
         });
     },
-    testMemberCart() {
-      admin
-        .auth()
-        .createUser({
-          email: "user@example.com",
-          emailVerified: false,
-          phoneNumber: "+11234567890",
-          password: "secretPassword",
-          displayName: "John Doe",
-          photoURL: "http://www.example.com/12345678/photo.png",
-          disabled: false
-        })
-        .then(function(userRecord) {
-          // See the UserRecord reference doc for the contents of userRecord.
-          console.log("Successfully created new user:", userRecord.uid);
-        })
-        .catch(function(error) {
-          console.log("Error creating new user:", error);
-        });
-    },
 
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -150,14 +130,12 @@ export default {
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
   },
-  mounted() {
-    // console.log(this.cart);
-  }
 };
 </script>
 <style scoped lang="scss">
 .wrap {
   max-width: 1680px;
+  width: 100%;
   &_top {
     height: 30px;
     background-color: #eee;

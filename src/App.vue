@@ -68,14 +68,14 @@ export default {
   flex-direction: column;
   width: 100%;
   overflow: hidden;
+  
 }
 .block {
-  /* width: 100%; */
   height: 110px;
 }
 .nav {
   position: fixed;
-  z-index: 10;
+  z-index: 20;
   width: 100%;
 }
 </style>
