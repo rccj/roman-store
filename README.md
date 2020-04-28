@@ -1,5 +1,5 @@
 # Vue 電商網站
-[Demo](https://rccj.github.io/roman-store)
+[Demo](https://rccj.github.io/roman-store/)
 
 ## 使用技術
 - Vue.js
