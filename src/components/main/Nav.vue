@@ -60,7 +60,7 @@
             </el-button>
             <div class="total">total: {{getTotalPrice}}</div>
             <el-button type="text" @click="clearCart" plain class="el-icon-delete" size="mini">clear</el-button>
-            <el-button v-if="cart.length !== 0" type="text" plain class="el-icon-shopping-bag-2" size="mini">
+            <el-button v-if="cart !== []" type="text" plain class="el-icon-shopping-bag-2" size="mini">
               <router-link :to="{name:'checkout'}">check out</router-link>
             </el-button>
           </el-popover>
@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     ...mapState(["cart", "memberCart", "userEmail"]),
-    ...mapGetters(["getTotalPrice"]),
+    ...mapGetters(["getTotalPrice","cartLength"]),
     isAdminLogged() {
       if (currentUser == "stubstub8257@gmail.com") {
         return ture;
@@ -105,9 +105,9 @@ export default {
         });
     },
 
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
+    // handleClose(tag) {
+    //   this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    // },
 
     handleInputConfirm() {
       if (this.inputValue) {
@@ -122,15 +122,15 @@ export default {
     if (firebase.auth().currentUser) {
       this.isLoggedIn = true;
       this.currentUser = firebase.auth().currentUser.email;
+    }else{
+      this.isLoggedIn = false;
+      this.currentUser = false;
     }
     this.setCart();
     this.getFireProducts();
     this.getUserEmail();
     this.getMemberCart(this.userEmail);
   },
-  mounted(){
-    
-  }
 };
 </script>
 <style scoped lang="scss">

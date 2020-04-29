@@ -5,6 +5,7 @@
       || data.userName.toLowerCase().includes(search.toLowerCase())
       || data.email.toLowerCase().includes(search.toLowerCase()))"
         style="width: 100%"
+        emptyText="-empty-"
       >
         <el-table-column label="#id" prop="id" width="50px"></el-table-column>
         <el-table-column label="auth" prop="auth" width="90px"></el-table-column>

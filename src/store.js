@@ -62,8 +62,7 @@ const store = new Vuex.Store({
     //獲取普通購物車資料
     setCart(state, data) {
       if (firebase.auth().currentUser) {
-        state.cart = data
-
+        state.cart = data || []
         //讀取雲端會員的購物車
       } else (
         state.cart = JSON.parse(localStorage.getItem('cartData')) || []
@@ -248,6 +247,9 @@ const store = new Vuex.Store({
         }
       ]
       return getoptions
+    },
+    cartLength(state){
+      return state.cart.length
     }
   },
 
